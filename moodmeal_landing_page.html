@@ -1,0 +1,936 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pantri — Eat Your Feelings</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --cream: #F5F0E8;
+    --warm-white: #FDFAF4;
+    --charcoal: #1C1C1A;
+    --moss: #3B5C2F;
+    --terracotta: #C4623A;
+    --blush: #E8A598;
+    --butter: #F0C94C;
+    --sage: #8FAF78;
+    --ink: #2A2825;
+    --muted: #7A7570;
+    --border: rgba(44,40,37,0.12);
+  }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--warm-white);
+    color: var(--charcoal);
+    overflow-x: hidden;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 1.2rem 3rem;
+    background: rgba(253,250,244,0.88);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+  }
+  .logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.5rem; font-weight: 700;
+    color: var(--charcoal); letter-spacing: -0.02em;
+  }
+  .logo span { color: var(--terracotta); }
+  .nav-links { display: flex; gap: 2rem; list-style: none; }
+  .nav-links a { font-size: 0.85rem; color: var(--muted); text-decoration: none; letter-spacing: 0.04em; text-transform: uppercase; transition: color 0.2s; }
+  .nav-links a:hover { color: var(--charcoal); }
+  .nav-cta {
+    background: var(--charcoal); color: var(--cream);
+    padding: 0.6rem 1.4rem; border-radius: 100px;
+    font-size: 0.85rem; font-weight: 500; text-decoration: none;
+    transition: background 0.2s, transform 0.15s;
+  }
+  .nav-cta:hover { background: var(--terracotta); transform: scale(1.02); }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    display: grid; grid-template-columns: 1fr 1fr;
+    padding: 0; position: relative; overflow: hidden;
+  }
+  .hero-left {
+    display: flex; flex-direction: column; justify-content: center;
+    padding: 8rem 4rem 6rem 5rem;
+    position: relative; z-index: 2;
+  }
+  .hero-tag {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: var(--butter); color: var(--ink);
+    padding: 6px 14px; border-radius: 100px;
+    font-size: 0.75rem; font-weight: 500; letter-spacing: 0.06em;
+    text-transform: uppercase; width: fit-content; margin-bottom: 2rem;
+  }
+  .hero-tag::before { content: '✦'; font-size: 10px; }
+  .hero-h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(3.2rem, 5vw, 5rem);
+    line-height: 1.08; font-weight: 700;
+    color: var(--charcoal); letter-spacing: -0.03em;
+    margin-bottom: 1.8rem;
+  }
+  .hero-h1 em { color: var(--terracotta); font-style: italic; }
+  .hero-sub {
+    font-size: 1.05rem; color: var(--muted); line-height: 1.7;
+    max-width: 420px; margin-bottom: 3rem; font-weight: 300;
+  }
+  .hero-actions { display: flex; gap: 1rem; align-items: center; flex-wrap: wrap; }
+  .btn-primary {
+    background: var(--terracotta); color: white;
+    padding: 1rem 2rem; border-radius: 100px;
+    font-size: 0.95rem; font-weight: 500; text-decoration: none;
+    transition: transform 0.2s, box-shadow 0.2s;
+    display: inline-flex; align-items: center; gap: 8px;
+  }
+  .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 12px 32px rgba(196,98,58,0.3); }
+  .btn-ghost {
+    color: var(--charcoal); padding: 1rem 1.5rem;
+    font-size: 0.9rem; text-decoration: none;
+    display: inline-flex; align-items: center; gap: 6px;
+    border-bottom: 1.5px solid var(--charcoal); transition: gap 0.2s;
+  }
+  .btn-ghost:hover { gap: 12px; }
+  .hero-right {
+    position: relative; overflow: hidden;
+    background: var(--cream);
+  }
+  .hero-visual {
+    position: absolute; inset: 0;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .blob-bg {
+    position: absolute; width: 520px; height: 520px;
+    background: radial-gradient(ellipse at 40% 60%, #E8A59866 0%, transparent 65%),
+                radial-gradient(ellipse at 70% 30%, #F0C94C44 0%, transparent 55%),
+                radial-gradient(ellipse at 50% 50%, #8FAF7833 0%, transparent 70%);
+    animation: blobPulse 6s ease-in-out infinite alternate;
+  }
+  @keyframes blobPulse {
+    0% { transform: scale(1) rotate(0deg); }
+    100% { transform: scale(1.08) rotate(4deg); }
+  }
+  .mood-wheel {
+    position: relative; width: 360px; height: 360px;
+    animation: floatWheel 4s ease-in-out infinite alternate;
+  }
+  @keyframes floatWheel {
+    0% { transform: translateY(0); }
+    100% { transform: translateY(-18px); }
+  }
+  .mood-center {
+    position: absolute; top: 50%; left: 50%;
+    transform: translate(-50%,-50%);
+    width: 100px; height: 100px; border-radius: 50%;
+    background: var(--charcoal);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 2.4rem; z-index: 5;
+    box-shadow: 0 8px 32px rgba(28,28,26,0.25);
+  }
+  .mood-ring-item {
+    position: absolute; width: 68px; height: 68px;
+    border-radius: 50%; display: flex; align-items: center; justify-content: center;
+    font-size: 1.8rem; cursor: pointer;
+    transition: transform 0.25s, box-shadow 0.25s;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+    top: 50%; left: 50%;
+    animation: pulseItem 3s ease-in-out infinite;
+  }
+  .mood-ring-item:hover { transform: translate(-50%,-50%) scale(1.15) !important; box-shadow: 0 8px 24px rgba(0,0,0,0.2); }
+  @keyframes pulseItem { 0%,100% { box-shadow: 0 4px 16px rgba(0,0,0,0.1); } 50% { box-shadow: 0 6px 24px rgba(0,0,0,0.18); } }
+  .floating-card {
+    position: absolute; background: white; border-radius: 16px;
+    padding: 12px 16px; box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+    font-size: 0.78rem; font-weight: 500; white-space: nowrap;
+    animation: floatCard 5s ease-in-out infinite alternate;
+    border: 1px solid var(--border); z-index: 10;
+  }
+  @keyframes floatCard { 0% { transform: translateY(0) rotate(-1deg); } 100% { transform: translateY(-10px) rotate(1deg); } }
+  .fc-1 { top: 18%; left: 6%; animation-delay: 0s; }
+  .fc-2 { top: 12%; right: 8%; animation-delay: 1.5s; }
+  .fc-3 { bottom: 20%; left: 4%; animation-delay: 0.8s; }
+  .fc-4 { bottom: 15%; right: 6%; animation-delay: 2s; }
+  .fc-dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 6px; vertical-align: middle; }
+
+  /* STATS BAND */
+  .stats-band {
+    background: var(--charcoal); color: white;
+    padding: 2rem 5rem;
+    display: flex; justify-content: space-around; align-items: center;
+    flex-wrap: wrap; gap: 2rem;
+  }
+  .stat-item { text-align: center; }
+  .stat-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.6rem; font-weight: 700; display: block;
+    color: var(--butter);
+  }
+  .stat-label { font-size: 0.78rem; color: rgba(255,255,255,0.55); letter-spacing: 0.06em; text-transform: uppercase; }
+  .stat-div { width: 1px; height: 40px; background: rgba(255,255,255,0.15); }
+
+  /* MOOD SECTION */
+  .section { padding: 7rem 5rem; }
+  .section-eyebrow {
+    font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--terracotta); font-weight: 500; margin-bottom: 1rem;
+  }
+  .section-h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.2rem, 4vw, 3.5rem);
+    line-height: 1.12; font-weight: 700;
+    letter-spacing: -0.02em; color: var(--charcoal);
+    margin-bottom: 1.2rem;
+  }
+  .section-sub { font-size: 1rem; color: var(--muted); line-height: 1.7; max-width: 480px; font-weight: 300; }
+
+  .mood-grid {
+    display: grid; grid-template-columns: repeat(7, 1fr);
+    gap: 1rem; margin-top: 3.5rem;
+  }
+  .mood-card {
+    background: var(--cream); border-radius: 20px;
+    padding: 1.5rem 1rem; text-align: center;
+    cursor: pointer; transition: all 0.3s; border: 2px solid transparent;
+    position: relative; overflow: hidden;
+  }
+  .mood-card::before {
+    content: ''; position: absolute; inset: 0;
+    opacity: 0; transition: opacity 0.3s;
+    border-radius: 18px;
+  }
+  .mood-card:hover { transform: translateY(-6px); border-color: var(--terracotta); }
+  .mood-card.active { border-color: var(--terracotta); background: white; box-shadow: 0 12px 40px rgba(196,98,58,0.15); }
+  .mood-emoji { font-size: 2.4rem; display: block; margin-bottom: 0.6rem; }
+  .mood-name { font-size: 0.75rem; font-weight: 500; color: var(--charcoal); }
+  .mood-sub-text { font-size: 0.68rem; color: var(--muted); margin-top: 3px; }
+
+  .food-suggestions {
+    margin-top: 2.5rem; background: white; border-radius: 24px;
+    border: 1px solid var(--border); padding: 2rem;
+    display: none;
+  }
+  .food-suggestions.visible { display: block; animation: slideUp 0.4s ease; }
+  @keyframes slideUp { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+  .food-sugg-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; }
+  .food-sugg-title { font-family: 'Playfair Display', serif; font-size: 1.3rem; }
+  .food-sugg-tag { background: var(--cream); padding: 4px 12px; border-radius: 100px; font-size: 0.75rem; color: var(--muted); }
+  .food-cards-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; }
+  .food-chip {
+    background: var(--cream); border-radius: 14px; padding: 1.2rem;
+    display: flex; flex-direction: column; gap: 8px;
+    cursor: pointer; transition: transform 0.2s, background 0.2s;
+    border: 1.5px solid transparent;
+  }
+  .food-chip:hover { background: var(--butter); border-color: rgba(240,201,76,0.5); transform: scale(1.02); }
+  .food-chip-emoji { font-size: 1.8rem; }
+  .food-chip-name { font-size: 0.85rem; font-weight: 500; }
+  .food-chip-tag { font-size: 0.68rem; color: var(--muted); }
+
+  /* PANTRY / FEATURES */
+  .features { background: var(--cream); padding: 7rem 5rem; }
+  .feat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: center; margin-top: 4rem; }
+  .feat-visual-box {
+    background: var(--charcoal); border-radius: 28px;
+    padding: 2.5rem; position: relative; overflow: hidden;
+    min-height: 400px; display: flex; flex-direction: column; justify-content: flex-end;
+  }
+  .feat-visual-deco {
+    position: absolute; top: -30px; right: -30px;
+    width: 200px; height: 200px; border-radius: 50%;
+    background: radial-gradient(circle, rgba(240,201,76,0.3), transparent 70%);
+  }
+  .pantry-items {
+    display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 1.5rem; position: relative; z-index: 2;
+  }
+  .pantry-pill {
+    background: rgba(255,255,255,0.12); color: white;
+    padding: 6px 14px; border-radius: 100px; font-size: 0.8rem;
+    border: 1px solid rgba(255,255,255,0.2); display: flex; align-items: center; gap: 6px;
+  }
+  .pantry-pill.highlight { background: var(--terracotta); border-color: var(--terracotta); }
+  .recipe-gen-box {
+    background: white; border-radius: 16px; padding: 1.2rem 1.5rem;
+    position: relative; z-index: 2;
+  }
+  .recipe-gen-label { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); margin-bottom: 8px; }
+  .recipe-gen-title { font-family: 'Playfair Display', serif; font-size: 1.15rem; color: var(--charcoal); margin-bottom: 10px; }
+  .recipe-tags { display: flex; gap: 6px; flex-wrap: wrap; }
+  .recipe-tag {
+    padding: 4px 10px; border-radius: 100px; font-size: 0.7rem; font-weight: 500;
+  }
+  .recipe-tag.green { background: #EAF3DE; color: #3B6D11; }
+  .recipe-tag.amber { background: #FAEEDA; color: #854F0B; }
+  .recipe-tag.coral { background: #FAECE7; color: #993C1D; }
+
+  .feat-text { padding: 1rem 0; }
+  .feat-point { display: flex; gap: 1rem; margin-bottom: 2rem; align-items: flex-start; }
+  .feat-icon-box {
+    width: 44px; height: 44px; border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.3rem; flex-shrink: 0;
+  }
+  .feat-point-title { font-weight: 500; font-size: 0.95rem; margin-bottom: 4px; }
+  .feat-point-desc { font-size: 0.85rem; color: var(--muted); line-height: 1.6; }
+
+  /* COMMUNITY */
+  .community { padding: 7rem 5rem; }
+  .comm-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1.5rem; margin-top: 3.5rem; }
+  .comm-card {
+    border-radius: 24px; overflow: hidden;
+    border: 1px solid var(--border);
+    transition: transform 0.3s; background: white;
+  }
+  .comm-card:hover { transform: translateY(-4px); }
+  .comm-img {
+    height: 200px; display: flex; align-items: center; justify-content: center;
+    font-size: 5rem; position: relative;
+  }
+  .comm-img-1 { background: linear-gradient(135deg, #FAEEDA, #FAC775); }
+  .comm-img-2 { background: linear-gradient(135deg, #EAF3DE, #C0DD97); }
+  .comm-img-3 { background: linear-gradient(135deg, #FAECE7, #F0997B); }
+  .comm-body { padding: 1.2rem 1.5rem; }
+  .comm-user { display: flex; gap: 8px; align-items: center; margin-bottom: 10px; }
+  .comm-avatar { width: 28px; height: 28px; border-radius: 50%; font-size: 0.7rem; display: flex; align-items: center; justify-content: center; font-weight: 600; }
+  .comm-avatar.a1 { background: #FAC775; color: #633806; }
+  .comm-avatar.a2 { background: #C0DD97; color: #27500A; }
+  .comm-avatar.a3 { background: #F0997B; color: #4A1B0C; }
+  .comm-username { font-size: 0.78rem; font-weight: 500; }
+  .comm-challenge-badge { font-size: 0.65rem; background: var(--cream); padding: 2px 8px; border-radius: 100px; color: var(--muted); margin-left: auto; }
+  .comm-recipe-name { font-family: 'Playfair Display', serif; font-size: 1.05rem; margin-bottom: 6px; }
+  .comm-meta { font-size: 0.75rem; color: var(--muted); display: flex; gap: 12px; }
+  .comm-meta span { display: flex; align-items: center; gap: 4px; }
+
+  /* TRACKER */
+  .tracker { background: var(--charcoal); color: white; padding: 7rem 5rem; }
+  .tracker-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: center; }
+  .tracker-h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2rem, 3.5vw, 3rem); line-height: 1.12;
+    font-weight: 700; margin-bottom: 1.2rem; color: white;
+  }
+  .tracker-h2 em { color: var(--butter); font-style: italic; }
+  .tracker-sub { color: rgba(255,255,255,0.55); line-height: 1.7; font-size: 0.95rem; font-weight: 300; max-width: 380px; margin-bottom: 2.5rem; }
+  .tracker-feats { display: flex; flex-direction: column; gap: 1.2rem; }
+  .trac-feat { display: flex; gap: 1rem; align-items: flex-start; }
+  .trac-feat-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--butter); margin-top: 6px; flex-shrink: 0; }
+  .trac-feat-text { font-size: 0.88rem; color: rgba(255,255,255,0.75); line-height: 1.6; }
+  .trac-feat-text strong { color: white; font-weight: 500; }
+
+  .tracker-visual { position: relative; }
+  .monthly-report {
+    background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 24px; padding: 2rem; backdrop-filter: blur(8px);
+  }
+  .report-month { font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(255,255,255,0.4); margin-bottom: 1rem; }
+  .report-title { font-family: 'Playfair Display', serif; font-size: 1.1rem; color: white; margin-bottom: 1.5rem; }
+  .nutr-bars { display: flex; flex-direction: column; gap: 12px; margin-bottom: 1.5rem; }
+  .nutr-row { display: flex; align-items: center; gap: 10px; }
+  .nutr-label { font-size: 0.75rem; color: rgba(255,255,255,0.5); width: 80px; flex-shrink: 0; }
+  .nutr-bar-bg { flex: 1; height: 6px; background: rgba(255,255,255,0.1); border-radius: 100px; overflow: hidden; }
+  .nutr-bar-fill { height: 100%; border-radius: 100px; transition: width 1s ease; }
+  .nutr-val { font-size: 0.72rem; color: rgba(255,255,255,0.4); width: 36px; text-align: right; }
+  .report-chips { display: flex; gap: 8px; flex-wrap: wrap; }
+  .report-chip { padding: 6px 12px; border-radius: 100px; font-size: 0.72rem; background: rgba(255,255,255,0.08); color: rgba(255,255,255,0.6); border: 1px solid rgba(255,255,255,0.1); }
+
+  .mini-cookbooks { position: absolute; top: -20px; right: -10px; display: flex; flex-direction: column; gap: 8px; }
+  .mini-book {
+    background: white; border-radius: 10px; padding: 8px 12px;
+    font-size: 0.72rem; font-weight: 500; color: var(--charcoal);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+    display: flex; align-items: center; gap: 8px; white-space: nowrap;
+    animation: floatCard 4s ease-in-out infinite alternate;
+  }
+  .mini-book:nth-child(2) { animation-delay: 1.5s; margin-left: 20px; }
+  .mini-book:nth-child(3) { animation-delay: 0.8s; margin-left: 10px; }
+
+  /* MONETIZE */
+  .restaurant { padding: 7rem 5rem; background: var(--cream); }
+  .rest-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: center; margin-top: 4rem; }
+  .rest-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+  .rest-card {
+    background: white; border-radius: 20px; padding: 1.5rem;
+    border: 1px solid var(--border); position: relative; overflow: hidden;
+    transition: transform 0.3s;
+  }
+  .rest-card:hover { transform: translateY(-4px); }
+  .rest-card::after {
+    content: 'Recommended for you'; position: absolute;
+    top: 12px; right: -28px; background: var(--terracotta); color: white;
+    font-size: 0.6rem; padding: 4px 32px; transform: rotate(45deg);
+    letter-spacing: 0.05em;
+  }
+  .rest-card.no-badge::after { display: none; }
+  .rest-cuisine { font-size: 2rem; margin-bottom: 8px; }
+  .rest-name { font-weight: 600; font-size: 0.9rem; margin-bottom: 4px; }
+  .rest-type { font-size: 0.75rem; color: var(--muted); margin-bottom: 12px; }
+  .rest-match { display: flex; align-items: center; gap: 6px; font-size: 0.72rem; }
+  .rest-match-bar { flex: 1; height: 4px; background: var(--cream); border-radius: 100px; overflow: hidden; }
+  .rest-match-fill { height: 100%; background: var(--moss); border-radius: 100px; }
+  .rest-match-pct { font-size: 0.7rem; color: var(--moss); font-weight: 600; }
+
+  /* CTA */
+  .cta-section {
+    padding: 8rem 5rem; text-align: center;
+    background: white; position: relative; overflow: hidden;
+  }
+  .cta-deco {
+    position: absolute; width: 600px; height: 600px; border-radius: 50%;
+    background: radial-gradient(circle, #F0C94C22 0%, transparent 70%);
+    top: -100px; left: 50%; transform: translateX(-50%);
+    pointer-events: none;
+  }
+  .cta-h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.5rem, 5vw, 4.5rem); line-height: 1.1;
+    letter-spacing: -0.03em; font-weight: 700; margin-bottom: 1.5rem;
+    position: relative;
+  }
+  .cta-h2 em { color: var(--terracotta); font-style: italic; }
+  .cta-sub { font-size: 1rem; color: var(--muted); max-width: 420px; margin: 0 auto 3rem; line-height: 1.7; font-weight: 300; }
+  .cta-input-row { display: flex; max-width: 440px; margin: 0 auto; gap: 0; overflow: hidden; border-radius: 100px; border: 1.5px solid var(--border); background: white; }
+  .cta-input { flex: 1; padding: 1rem 1.5rem; border: none; outline: none; font-family: 'DM Sans', sans-serif; font-size: 0.9rem; background: transparent; }
+  .cta-btn { background: var(--terracotta); color: white; border: none; padding: 0 1.8rem; font-family: 'DM Sans', sans-serif; font-size: 0.88rem; font-weight: 500; cursor: pointer; transition: background 0.2s; white-space: nowrap; }
+  .cta-btn:hover { background: var(--moss); }
+
+  /* FOOTER */
+  footer {
+    background: var(--charcoal); color: rgba(255,255,255,0.45);
+    padding: 3rem 5rem; display: flex; justify-content: space-between; align-items: center;
+    font-size: 0.8rem;
+  }
+  .footer-logo { font-family: 'Playfair Display', serif; font-size: 1.2rem; color: white; }
+  .footer-logo span { color: var(--terracotta); }
+
+  /* ANIMATIONS */
+  .fade-in { opacity: 0; transform: translateY(24px); transition: opacity 0.7s ease, transform 0.7s ease; }
+  .fade-in.visible { opacity: 1; transform: translateY(0); }
+
+  @media (max-width: 900px) {
+    .hero { grid-template-columns: 1fr; }
+    .hero-right { min-height: 400px; }
+    nav { padding: 1rem 1.5rem; }
+    .nav-links { display: none; }
+    .section, .features, .community, .tracker, .restaurant, .cta-section { padding: 5rem 1.5rem; }
+    .stats-band { padding: 2rem 1.5rem; }
+    .feat-grid, .tracker-inner, .rest-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+    .mood-grid { grid-template-columns: repeat(4, 1fr); }
+    .comm-grid { grid-template-columns: 1fr; }
+    .food-cards-row { grid-template-columns: repeat(2, 1fr); }
+    footer { flex-direction: column; gap: 1rem; text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="logo">pan<span>tri</span></div>
+  <ul class="nav-links">
+    <li><a href="#mood">Mood → Food</a></li>
+    <li><a href="#pantry">Pantry</a></li>
+    <li><a href="#community">Community</a></li>
+    <li><a href="#tracker">Tracker</a></li>
+  </ul>
+  <a href="#waitlist" class="nav-cta">Join waitlist →</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-left">
+    <div class="hero-tag">Mood-first food discovery</div>
+    <h1 class="hero-h1">
+      Eat what you <em>actually</em><br>
+      feel like eating.
+    </h1>
+    <p class="hero-sub">
+      Pantri matches your mood to food — from whatever's already in your kitchen to your city's best hidden gems. No more decision fatigue.
+    </p>
+    <div class="hero-actions">
+      <a href="#waitlist" class="btn-primary">Start for free ↗</a>
+      <a href="#mood" class="btn-ghost">See how it works →</a>
+    </div>
+  </div>
+  <div class="hero-right">
+    <div class="hero-visual">
+      <div class="blob-bg"></div>
+      <div class="mood-wheel" id="heroWheel">
+        <div class="mood-center" title="How are you feeling?">😌</div>
+      </div>
+
+      <!-- Floating cards -->
+      <div class="floating-card fc-1">
+        <span class="fc-dot" style="background:#C4623A;"></span> Craving warmth &amp; comfort
+      </div>
+      <div class="floating-card fc-2">
+        🥕 3 ingredients in pantry
+      </div>
+      <div class="floating-card fc-3">
+        ✨ 12 recipes generated
+      </div>
+      <div class="floating-card fc-4">
+        <span class="fc-dot" style="background:#8FAF78;"></span> 97% flavor match
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STATS BAND -->
+<div class="stats-band">
+  <div class="stat-item">
+    <span class="stat-num">50k+</span>
+    <span class="stat-label">Recipes curated</span>
+  </div>
+  <div class="stat-div"></div>
+  <div class="stat-item">
+    <span class="stat-num">7</span>
+    <span class="stat-label">Mood profiles</span>
+  </div>
+  <div class="stat-div"></div>
+  <div class="stat-item">
+    <span class="stat-num">94%</span>
+    <span class="stat-label">User satisfaction</span>
+  </div>
+  <div class="stat-div"></div>
+  <div class="stat-item">
+    <span class="stat-num">12s</span>
+    <span class="stat-label">Avg. decision time</span>
+  </div>
+</div>
+
+<!-- MOOD → FOOD -->
+<section class="section fade-in" id="mood">
+  <div class="section-eyebrow">Objective 01 — Mood matching</div>
+  <h2 class="section-h2">What's your mood telling<br>your stomach?</h2>
+  <p class="section-sub">Tap how you're feeling. We'll surface meals — to cook or order — that align with your emotional state and flavor profile.</p>
+
+  <div class="mood-grid">
+    <div class="mood-card" data-mood="amazing" data-emoji="🤩" onclick="selectMood(this)">
+      <span class="mood-emoji">🤩</span>
+      <div class="mood-name">Amazing</div>
+      <div class="mood-sub-text">Celebrate big</div>
+    </div>
+    <div class="mood-card" data-mood="happy" data-emoji="😊" onclick="selectMood(this)">
+      <span class="mood-emoji">😊</span>
+      <div class="mood-name">Happy</div>
+      <div class="mood-sub-text">Keep the vibe</div>
+    </div>
+    <div class="mood-card active" data-mood="cozy" data-emoji="😌" onclick="selectMood(this)">
+      <span class="mood-emoji">😌</span>
+      <div class="mood-name">Cozy</div>
+      <div class="mood-sub-text">Warm & slow</div>
+    </div>
+    <div class="mood-card" data-mood="meh" data-emoji="😐" onclick="selectMood(this)">
+      <span class="mood-emoji">😐</span>
+      <div class="mood-name">Meh</div>
+      <div class="mood-sub-text">Needs a nudge</div>
+    </div>
+    <div class="mood-card" data-mood="stressed" data-emoji="😤" onclick="selectMood(this)">
+      <span class="mood-emoji">😤</span>
+      <div class="mood-name">Stressed</div>
+      <div class="mood-sub-text">Needs comfort</div>
+    </div>
+    <div class="mood-card" data-mood="awful" data-emoji="😢" onclick="selectMood(this)">
+      <span class="mood-emoji">😢</span>
+      <div class="mood-name">Low</div>
+      <div class="mood-sub-text">Lift me up</div>
+    </div>
+    <div class="mood-card" data-mood="indulge" data-emoji="🤤" onclick="selectMood(this)">
+      <span class="mood-emoji">🤤</span>
+      <div class="mood-name">Indulge</div>
+      <div class="mood-sub-text">No regrets</div>
+    </div>
+  </div>
+
+  <div class="food-suggestions visible" id="foodSuggest">
+    <div class="food-sugg-header">
+      <div class="food-sugg-title" id="suggTitle">😌 Cozy mode — comfort picks</div>
+      <div class="food-sugg-tag">Based on your flavor profile</div>
+    </div>
+    <div class="food-cards-row" id="foodCardsRow">
+      <div class="food-chip"><span class="food-chip-emoji">🍜</span><span class="food-chip-name">Ramen</span><span class="food-chip-tag">Japanese · 35 min</span></div>
+      <div class="food-chip"><span class="food-chip-emoji">🫕</span><span class="food-chip-name">Lentil Stew</span><span class="food-chip-tag">Mediterranean · 40 min</span></div>
+      <div class="food-chip"><span class="food-chip-emoji">🧇</span><span class="food-chip-name">Fluffy Pancakes</span><span class="food-chip-tag">American · 20 min</span></div>
+      <div class="food-chip"><span class="food-chip-emoji">🍛</span><span class="food-chip-name">Butter Chicken</span><span class="food-chip-tag">Indian · 50 min</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- PANTRY FEATURES -->
+<section class="features fade-in" id="pantry">
+  <div class="section-eyebrow">Objective 01 — Pantry intelligence</div>
+  <h2 class="section-h2">Your pantry is already a recipe book.<br>We just read it for you.</h2>
+
+  <div class="feat-grid">
+    <div class="feat-visual-box">
+      <div class="feat-visual-deco"></div>
+      <div class="pantry-items">
+        <div class="pantry-pill">🥚 Eggs</div>
+        <div class="pantry-pill highlight">🍅 Tomatoes</div>
+        <div class="pantry-pill">🧅 Onion</div>
+        <div class="pantry-pill">🫒 Olive oil</div>
+        <div class="pantry-pill highlight">🧄 Garlic</div>
+        <div class="pantry-pill">🌿 Basil</div>
+        <div class="pantry-pill">🧀 Feta</div>
+        <div class="pantry-pill highlight">🍋 Lemon</div>
+      </div>
+      <div class="recipe-gen-box">
+        <div class="recipe-gen-label">✦ Generated for you</div>
+        <div class="recipe-gen-title">Shakshuka with Feta & Lemon Herb Oil</div>
+        <div class="recipe-tags">
+          <span class="recipe-tag green">Vegetarian</span>
+          <span class="recipe-tag amber">30 min</span>
+          <span class="recipe-tag coral">Mediterranean</span>
+        </div>
+      </div>
+    </div>
+    <div class="feat-text">
+      <div class="feat-point">
+        <div class="feat-icon-box" style="background:#FAEEDA;">🧠</div>
+        <div>
+          <div class="feat-point-title">Pantry-first recipes</div>
+          <div class="feat-point-desc">Tell us what you have and we'll generate recipes ranked by how many ingredients you already own — zero grocery trips required.</div>
+        </div>
+      </div>
+      <div class="feat-point">
+        <div class="feat-icon-box" style="background:#FAECE7;">🎯</div>
+        <div>
+          <div class="feat-point-title">Flavor profile learning</div>
+          <div class="feat-point-desc">As you save and cook recipes, Pantri builds your personal flavor map — learning your preferred cuisines, spice levels, and textures.</div>
+        </div>
+      </div>
+      <div class="feat-point">
+        <div class="feat-icon-box" style="background:#EAF3DE;">🔄</div>
+        <div>
+          <div class="feat-point-title">Expiry-aware suggestions</div>
+          <div class="feat-point-desc">Mark items nearing expiry and we'll prioritize recipes that use them — reducing waste and saving money.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- COMMUNITY -->
+<section class="community fade-in" id="community">
+  <div class="section-eyebrow">Objective 02 — Community</div>
+  <h2 class="section-h2">Copy, remix, and challenge.</h2>
+  <p class="section-sub">Browse what real people are cooking with what they have. One-tap copy their recipe and try it with your own twist.</p>
+
+  <div class="comm-grid">
+    <div class="comm-card">
+      <div class="comm-img comm-img-1">🥘</div>
+      <div class="comm-body">
+        <div class="comm-user">
+          <div class="comm-avatar a1">AN</div>
+          <div class="comm-username">Ana N.</div>
+          <div class="comm-challenge-badge">🏆 Weekly challenge</div>
+        </div>
+        <div class="comm-recipe-name">Pantry Paella with Frozen Peas</div>
+        <div class="comm-meta">
+          <span>❤️ 847</span>
+          <span>🔁 213 remixed</span>
+          <span>⏱ 45 min</span>
+        </div>
+      </div>
+    </div>
+    <div class="comm-card">
+      <div class="comm-img comm-img-2">🥗</div>
+      <div class="comm-body">
+        <div class="comm-user">
+          <div class="comm-avatar a2">JL</div>
+          <div class="comm-username">James L.</div>
+          <div class="comm-challenge-badge">🌱 Waste-free</div>
+        </div>
+        <div class="comm-recipe-name">5-Ingredient Fridge Clean-Out Salad</div>
+        <div class="comm-meta">
+          <span>❤️ 512</span>
+          <span>🔁 98 remixed</span>
+          <span>⏱ 15 min</span>
+        </div>
+      </div>
+    </div>
+    <div class="comm-card">
+      <div class="comm-img comm-img-3">🍲</div>
+      <div class="comm-body">
+        <div class="comm-user">
+          <div class="comm-avatar a3">MK</div>
+          <div class="comm-username">Mia K.</div>
+          <div class="comm-challenge-badge">🔥 Trending</div>
+        </div>
+        <div class="comm-recipe-name">Mom's Emergency Tomato Soup</div>
+        <div class="comm-meta">
+          <span>❤️ 1.2k</span>
+          <span>🔁 445 remixed</span>
+          <span>⏱ 20 min</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TRACKER -->
+<section class="tracker fade-in" id="tracker">
+  <div class="tracker-inner">
+    <div>
+      <div class="section-eyebrow" style="color:var(--butter)">Objective 03 — Health tracker</div>
+      <h2 class="tracker-h2">Your personal <em>cookbook</em><br>meets nutrition lab.</h2>
+      <p class="tracker-sub">Save recipes, snap photos of meals, and Pantri auto-generates your personal cookbook alongside a full monthly nutrition report you can actually export and share.</p>
+      <div class="tracker-feats">
+        <div class="trac-feat">
+          <div class="trac-feat-dot"></div>
+          <div class="trac-feat-text"><strong>Monthly nutrition reports</strong> — protein, carbs, fiber, and micronutrient trends from everything you cooked.</div>
+        </div>
+        <div class="trac-feat">
+          <div class="trac-feat-dot"></div>
+          <div class="trac-feat-text"><strong>AI-generated cookbook</strong> — your saved recipes and meal photos become a beautiful, printable cookbook.</div>
+        </div>
+        <div class="trac-feat">
+          <div class="trac-feat-dot"></div>
+          <div class="trac-feat-text"><strong>Export as PDF or CSV</strong> — take your data anywhere, share it with a dietitian, or just archive it.</div>
+        </div>
+        <div class="trac-feat">
+          <div class="trac-feat-dot"></div>
+          <div class="trac-feat-text"><strong>Trajectory insights</strong> — see how your eating evolves month by month and what patterns emerge.</div>
+        </div>
+      </div>
+    </div>
+    <div class="tracker-visual">
+      <div class="mini-cookbooks">
+        <div class="mini-book">📔 May Cookbook — 23 recipes</div>
+        <div class="mini-book">📊 Nutrition exported ✓</div>
+        <div class="mini-book">🏅 Streak: 14 days</div>
+      </div>
+      <div class="monthly-report" style="margin-top:80px;">
+        <div class="report-month">May 2026 — Monthly Report</div>
+        <div class="report-title">Your nutrition breakdown</div>
+        <div class="nutr-bars">
+          <div class="nutr-row">
+            <div class="nutr-label">Protein</div>
+            <div class="nutr-bar-bg"><div class="nutr-bar-fill" style="width:72%;background:#8FAF78;"></div></div>
+            <div class="nutr-val">72%</div>
+          </div>
+          <div class="nutr-row">
+            <div class="nutr-label">Fiber</div>
+            <div class="nutr-bar-bg"><div class="nutr-bar-fill" style="width:58%;background:#F0C94C;"></div></div>
+            <div class="nutr-val">58%</div>
+          </div>
+          <div class="nutr-row">
+            <div class="nutr-label">Carbs</div>
+            <div class="nutr-bar-bg"><div class="nutr-bar-fill" style="width:85%;background:#C4623A;"></div></div>
+            <div class="nutr-val">85%</div>
+          </div>
+          <div class="nutr-row">
+            <div class="nutr-label">Vitamins</div>
+            <div class="nutr-bar-bg"><div class="nutr-bar-fill" style="width:63%;background:#E8A598;"></div></div>
+            <div class="nutr-val">63%</div>
+          </div>
+        </div>
+        <div class="report-chips">
+          <div class="report-chip">🥗 Mediterranean focus</div>
+          <div class="report-chip">⬆️ +8% protein vs April</div>
+          <div class="report-chip">23 unique recipes</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- RESTAURANT RECOMMENDATIONS -->
+<section class="restaurant fade-in" id="restaurants">
+  <div class="section-eyebrow">Objective 04 — Seamless ordering</div>
+  <h2 class="section-h2">Not feeling like cooking?<br>We've got you.</h2>
+  <p class="section-sub">Based on your flavor profile, Pantri quietly surfaces restaurants that match your palate — when the mood says "indulge."</p>
+
+  <div class="rest-grid">
+    <div>
+      <p style="font-size:0.88rem;color:var(--muted);line-height:1.7;margin-bottom:2rem;">
+        These are never random ads. They're computed matches from your taste history, mood pattern, and cuisine preferences — surfaced only when you haven't cooked in 2 days or selected "indulge" mode.
+      </p>
+      <div style="display:flex;flex-direction:column;gap:1rem;">
+        <div style="display:flex;gap:10px;align-items:flex-start;">
+          <span style="font-size:1.2rem;flex-shrink:0;">🎯</span>
+          <div><div style="font-weight:500;font-size:0.9rem;margin-bottom:3px;">Flavor-matched, not sponsored</div><div style="font-size:0.82rem;color:var(--muted)">Restaurants earn placement by matching your profile, not by paying for priority.</div></div>
+        </div>
+        <div style="display:flex;gap:10px;align-items:flex-start;">
+          <span style="font-size:1.2rem;flex-shrink:0;">🤝</span>
+          <div><div style="font-weight:500;font-size:0.9rem;margin-bottom:3px;">Restaurant partnerships</div><div style="font-size:0.82rem;color:var(--muted)">Local restaurants pay to be indexed, but ranking is always algorithmic — never pay-to-win.</div></div>
+        </div>
+      </div>
+    </div>
+    <div class="rest-cards">
+      <div class="rest-card">
+        <div class="rest-cuisine">🍜</div>
+        <div class="rest-name">Yamato Ramen</div>
+        <div class="rest-type">Japanese · 0.8 mi</div>
+        <div class="rest-match">
+          <div class="rest-match-bar"><div class="rest-match-fill" style="width:94%"></div></div>
+          <div class="rest-match-pct">94% match</div>
+        </div>
+      </div>
+      <div class="rest-card no-badge">
+        <div class="rest-cuisine">🫕</div>
+        <div class="rest-name">Leila's Kitchen</div>
+        <div class="rest-type">Mediterranean · 1.2 mi</div>
+        <div class="rest-match">
+          <div class="rest-match-bar"><div class="rest-match-fill" style="width:88%"></div></div>
+          <div class="rest-match-pct">88% match</div>
+        </div>
+      </div>
+      <div class="rest-card no-badge">
+        <div class="rest-cuisine">🍛</div>
+        <div class="rest-name">Spice Route</div>
+        <div class="rest-type">Indian · 2.0 mi</div>
+        <div class="rest-match">
+          <div class="rest-match-bar"><div class="rest-match-fill" style="width:81%"></div></div>
+          <div class="rest-match-pct">81% match</div>
+        </div>
+      </div>
+      <div class="rest-card no-badge">
+        <div class="rest-cuisine">🥙</div>
+        <div class="rest-name">Falafel & Co</div>
+        <div class="rest-type">Middle Eastern · 0.5 mi</div>
+        <div class="rest-match">
+          <div class="rest-match-bar"><div class="rest-match-fill" style="width:76%"></div></div>
+          <div class="rest-match-pct">76% match</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section" id="waitlist">
+  <div class="cta-deco"></div>
+  <div class="section-eyebrow">Early access</div>
+  <h2 class="cta-h2">Stop asking<br><em>"what should I eat?"</em></h2>
+  <p class="cta-sub">Join thousands of people who let their mood guide their meals. Early access is free.</p>
+  <div class="cta-input-row">
+    <input class="cta-input" type="email" placeholder="your@email.com" id="waitlistEmail">
+    <button class="cta-btn" onclick="handleWaitlist()">Join waitlist</button>
+  </div>
+  <p id="waitlistMsg" style="margin-top:1rem;font-size:0.82rem;color:var(--moss);display:none;">✓ You're on the list! We'll be in touch.</p>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">pan<span>tri</span></div>
+  <div>© 2026 Pantri Inc. — eat your feelings, not your stress.</div>
+  <div style="display:flex;gap:1.5rem;">
+    <a href="#" style="color:inherit;text-decoration:none;">Privacy</a>
+    <a href="#" style="color:inherit;text-decoration:none;">Terms</a>
+    <a href="#" style="color:inherit;text-decoration:none;">Contact</a>
+  </div>
+</footer>
+
+<script>
+const moodFoods = {
+  amazing: { title: '🤩 Amazing — treat yourself', foods: [
+    {e:'🥂',n:'Champagne Risotto',t:'Italian · 45 min'},
+    {e:'🍣',n:'Sashimi Platter',t:'Japanese · 15 min'},
+    {e:'🎂',n:'Celebration Cake',t:'Baking · 90 min'},
+    {e:'🥩',n:'Ribeye Steak',t:'American · 30 min'}
+  ]},
+  happy: { title: '😊 Happy — keep the energy', foods: [
+    {e:'🌮',n:'Loaded Tacos',t:'Mexican · 25 min'},
+    {e:'🥙',n:'Mediterranean Bowl',t:'Greek · 20 min'},
+    {e:'🫔',n:'Smash Burgers',t:'American · 20 min'},
+    {e:'🍕',n:'Margherita Pizza',t:'Italian · 60 min'}
+  ]},
+  cozy: { title: '😌 Cozy — warm & slow', foods: [
+    {e:'🍜',n:'Ramen',t:'Japanese · 35 min'},
+    {e:'🫕',n:'Lentil Stew',t:'Mediterranean · 40 min'},
+    {e:'🧇',n:'Fluffy Pancakes',t:'American · 20 min'},
+    {e:'🍛',n:'Butter Chicken',t:'Indian · 50 min'}
+  ]},
+  meh: { title: '😐 Meh — needs a nudge', foods: [
+    {e:'🍳',n:'Avo Toast & Eggs',t:'Brunch · 12 min'},
+    {e:'🥣',n:'Acai Power Bowl',t:'Brazilian · 10 min'},
+    {e:'🥞',n:'Banana Pancakes',t:'Comfort · 18 min'},
+    {e:'☕',n:'Café au Lait Oats',t:'Breakfast · 8 min'}
+  ]},
+  stressed: { title: '😤 Stressed — comfort mode', foods: [
+    {e:'🍲',n:'Tomato Soup & Grilled Cheese',t:'Classic · 20 min'},
+    {e:'🥔',n:'Loaded Mashed Potatoes',t:'Comfort · 25 min'},
+    {e:'🍝',n:'Spaghetti Aglio e Olio',t:'Italian · 18 min'},
+    {e:'🧁',n:'Chocolate Mug Cake',t:'Dessert · 8 min'}
+  ]},
+  awful: { title: '😢 Low — gentle comfort', foods: [
+    {e:'🍵',n:'Matcha Latte & Toast',t:'Light · 5 min'},
+    {e:'🍌',n:'Banana Nice Cream',t:'Vegan · 10 min'},
+    {e:'🥣',n:'Warm Oatmeal & Honey',t:'Soothing · 8 min'},
+    {e:'🫖',n:'Chamomile Congee',t:'Chinese · 30 min'}
+  ]},
+  indulge: { title: '🤤 Indulge — no regrets', foods: [
+    {e:'🫕',n:'Truffle Mac & Cheese',t:'Indulgent · 35 min'},
+    {e:'🍔',n:'Double Smash Burger',t:'American · 20 min'},
+    {e:'🍩',n:'Glazed Doughnut French Toast',t:'Brunch · 22 min'},
+    {e:'🧈',n:'Brown Butter Pasta',t:'Italian · 18 min'}
+  ]}
+};
+
+function selectMood(el) {
+  document.querySelectorAll('.mood-card').forEach(c => c.classList.remove('active'));
+  el.classList.add('active');
+  const mood = el.dataset.mood;
+  const data = moodFoods[mood];
+  const sugg = document.getElementById('foodSuggest');
+  document.getElementById('suggTitle').textContent = data.title;
+  const row = document.getElementById('foodCardsRow');
+  row.innerHTML = data.foods.map(f =>
+    `<div class="food-chip"><span class="food-chip-emoji">${f.e}</span><span class="food-chip-name">${f.n}</span><span class="food-chip-tag">${f.t}</span></div>`
+  ).join('');
+  sugg.classList.remove('visible');
+  setTimeout(() => sugg.classList.add('visible'), 50);
+  const moodCenter = document.querySelector('.mood-center');
+  if (moodCenter) moodCenter.textContent = el.querySelector('.mood-emoji').textContent;
+}
+
+function handleWaitlist() {
+  const email = document.getElementById('waitlistEmail').value;
+  if (email && email.includes('@')) {
+    document.getElementById('waitlistMsg').style.display = 'block';
+    document.getElementById('waitlistEmail').value = '';
+  }
+}
+
+// Intersection Observer for fade-ins
+const obs = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); } });
+}, { threshold: 0.1 });
+document.querySelectorAll('.fade-in').forEach(el => obs.observe(el));
+
+// Build hero mood ring
+const heroMoods = [
+  {e:'🤩',c:'#F0C94C',deg:0},{e:'😊',c:'#8FAF78',deg:51},{e:'😤',c:'#C4623A',deg:102},
+  {e:'😐',c:'#E8A598',deg:154},{e:'😢',c:'#B5D4F4',deg:205},{e:'🤤',c:'#FAC775',deg:257},{e:'😌',c:'#5DCAA5',deg:308}
+];
+const wheel = document.getElementById('heroWheel');
+const R = 145;
+heroMoods.forEach(m => {
+  const angle = (m.deg - 90) * Math.PI / 180;
+  const x = 180 + R * Math.cos(angle) - 34;
+  const y = 180 + R * Math.sin(angle) - 34;
+  const item = document.createElement('div');
+  item.className = 'mood-ring-item';
+  item.style.cssText = `background:${m.c}; left:${x}px; top:${y}px; transform: translate(0,0); animation-delay: ${Math.random()*2}s;`;
+  item.textContent = m.e;
+  item.title = m.e;
+  item.style.transform = `translate(0,0)`;
+  const lx = x, ly = y;
+  item.addEventListener('mouseenter', () => { item.style.transform = `translate(${lx < 146 ? '-6px' : '6px'}, ${ly < 146 ? '-6px' : '6px'}) scale(1.15)`; });
+  item.addEventListener('mouseleave', () => { item.style.transform = `translate(0,0) scale(1)`; });
+  wheel.appendChild(item);
+});
+</script>
+</body>
+</html>
