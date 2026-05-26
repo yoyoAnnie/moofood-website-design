@@ -1,0 +1,1188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Moofood — Mood · Food · You</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,300;0,400;0,600;0,800;0,900;1,800&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --green:#1E3A2F;
+  --green-mid:#2D5441;
+  --green-light:#4A7C59;
+  --coral:#E8674A;
+  --peach:#F2A07B;
+  --amber:#F5C842;
+  --cream:#F5F0E6;
+  --cream-dark:#EDE6D6;
+  --white:#FDFBF7;
+  --text:#1E3A2F;
+  --muted:#6B8A72;
+  --shadow-coral:rgba(232,103,74,0.25);
+  --shadow-amber:rgba(245,200,66,0.25);
+  --shadow-green:rgba(30,58,47,0.18);
+}
+html{scroll-behavior:smooth;overflow-x:hidden}
+body{
+  font-family:'Nunito',sans-serif;
+  background:var(--cream);
+  color:var(--text);
+  overflow-x:hidden;
+  cursor:none;
+}
+
+/* CUSTOM CURSOR */
+.cursor{
+  position:fixed;width:12px;height:12px;
+  background:var(--coral);border-radius:50%;
+  pointer-events:none;z-index:9999;
+  transform:translate(-50%,-50%);
+  transition:width .2s,height .2s,background .2s;
+  mix-blend-mode:multiply;
+}
+.cursor-ring{
+  position:fixed;width:36px;height:36px;
+  border:2px solid var(--coral);border-radius:50%;
+  pointer-events:none;z-index:9998;
+  transform:translate(-50%,-50%);
+  transition:all .12s ease;opacity:.5;
+}
+body:has(a:hover) .cursor, body:has(button:hover) .cursor{width:20px;height:20px;background:var(--amber);}
+
+/* NAV */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:100;
+  display:flex;justify-content:space-between;align-items:center;
+  padding:1.1rem 4rem;
+  transition:background .3s,box-shadow .3s;
+}
+nav.scrolled{
+  background:rgba(245,240,230,0.92);
+  backdrop-filter:blur(16px);
+  box-shadow:0 1px 0 rgba(30,58,47,0.08);
+}
+.logo-text{
+  font-family:'Nunito',sans-serif;
+  font-weight:900;font-size:1.7rem;
+  color:var(--green);letter-spacing:-0.03em;
+  display:flex;align-items:center;gap:2px;
+}
+.logo-oo{display:inline-flex;align-items:center;gap:3px;position:relative;top:-1px}
+.logo-o1,.logo-o2{
+  width:22px;height:22px;border-radius:50%;
+  display:inline-flex;align-items:center;justify-content:center;
+  position:relative;overflow:hidden;
+}
+.logo-o1{background:var(--coral)}
+.logo-o2{background:var(--amber)}
+.logo-face{position:absolute;bottom:4px;left:50%;transform:translateX(-50%);width:10px;height:4px;border-bottom:2px solid rgba(255,255,255,0.8);border-radius:0 0 8px 8px}
+.logo-leaf{position:absolute;top:-3px;left:50%;transform:translateX(-50%);font-size:8px}
+.nav-links{display:flex;gap:2.2rem;list-style:none}
+.nav-links a{font-size:.82rem;font-weight:600;color:var(--green);text-decoration:none;letter-spacing:.06em;text-transform:uppercase;opacity:.65;transition:opacity .2s}
+.nav-links a:hover{opacity:1}
+.nav-cta{
+  background:var(--green);color:var(--cream);
+  padding:.65rem 1.6rem;border-radius:100px;
+  font-size:.82rem;font-weight:700;text-decoration:none;letter-spacing:.02em;
+  transition:transform .2s,box-shadow .2s,background .2s;
+  display:inline-flex;align-items:center;gap:6px;
+}
+.nav-cta:hover{background:var(--coral);transform:scale(1.04);box-shadow:0 8px 24px var(--shadow-coral)}
+
+/* ====== HERO ====== */
+.hero{
+  min-height:100vh;
+  display:flex;align-items:center;
+  padding:7rem 4rem 4rem;
+  position:relative;overflow:hidden;
+  background:var(--cream);
+}
+.hero-bg-blob{
+  position:absolute;inset:0;pointer-events:none;
+  overflow:hidden;
+}
+.blob{
+  position:absolute;border-radius:50%;filter:blur(70px);opacity:.4;
+  animation:blobDrift 8s ease-in-out infinite alternate;
+}
+.blob1{width:500px;height:500px;background:var(--peach);top:-100px;right:-100px;animation-delay:0s}
+.blob2{width:400px;height:400px;background:var(--amber);bottom:-80px;left:-80px;animation-delay:2s;opacity:.3}
+.blob3{width:300px;height:300px;background:#c8e6c9;top:40%;left:30%;animation-delay:4s;opacity:.2}
+@keyframes blobDrift{
+  0%{transform:translate(0,0) scale(1)}
+  100%{transform:translate(30px,20px) scale(1.1)}
+}
+
+.hero-inner{
+  display:grid;grid-template-columns:1fr 1fr;
+  gap:4rem;align-items:center;
+  width:100%;max-width:1280px;margin:0 auto;
+  position:relative;z-index:2;
+}
+.hero-tag{
+  display:inline-flex;align-items:center;gap:8px;
+  background:rgba(30,58,47,.08);color:var(--green);
+  padding:6px 16px;border-radius:100px;
+  font-size:.72rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
+  margin-bottom:1.6rem;width:fit-content;
+  border:1px solid rgba(30,58,47,.12);
+}
+.hero-tag-dot{width:6px;height:6px;border-radius:50%;background:var(--coral);animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(1.5);opacity:.6}}
+
+.hero-h1{
+  font-family:'DM Serif Display',serif;
+  font-size:clamp(3rem,5.5vw,5.2rem);
+  line-height:1.06;font-weight:400;
+  color:var(--green);letter-spacing:-.03em;
+  margin-bottom:1.6rem;
+}
+.hero-h1 .italic{font-style:italic;color:var(--coral)}
+.hero-h1 .underline-wavy{
+  position:relative;display:inline-block;
+}
+.hero-h1 .underline-wavy::after{
+  content:'';position:absolute;bottom:-4px;left:0;right:0;height:6px;
+  background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 10'%3E%3Cpath d='M0,5 Q12.5,0 25,5 Q37.5,10 50,5 Q62.5,0 75,5 Q87.5,10 100,5' stroke='%23F5C842' stroke-width='3' fill='none'/%3E%3C/svg%3E") repeat-x;
+  background-size:50px 6px;
+}
+.hero-sub{
+  font-size:1.05rem;color:var(--muted);line-height:1.75;
+  max-width:430px;margin-bottom:2.8rem;font-weight:400;
+}
+.hero-actions{display:flex;gap:1rem;align-items:center;flex-wrap:wrap}
+.btn-primary{
+  background:var(--coral);color:white;
+  padding:1rem 2.2rem;border-radius:100px;
+  font-size:.95rem;font-weight:700;text-decoration:none;
+  transition:transform .2s,box-shadow .2s;
+  display:inline-flex;align-items:center;gap:8px;
+  box-shadow:0 6px 20px var(--shadow-coral);
+}
+.btn-primary:hover{transform:translateY(-3px);box-shadow:0 14px 36px var(--shadow-coral)}
+.btn-secondary{
+  color:var(--green);font-size:.9rem;font-weight:700;
+  text-decoration:none;display:inline-flex;align-items:center;gap:6px;
+  padding:.8rem 0;border-bottom:2px solid var(--green);
+  transition:gap .2s,color .2s;
+}
+.btn-secondary:hover{gap:12px;color:var(--coral);border-color:var(--coral)}
+
+/* 3D FOOD ICON SVGs */
+.hero-right{
+  position:relative;display:flex;align-items:center;justify-content:center;
+}
+.food-orbit{
+  position:relative;width:460px;height:460px;
+}
+.orbit-center{
+  position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+  width:160px;height:160px;border-radius:50%;
+  background:var(--green);
+  display:flex;align-items:center;justify-content:center;
+  box-shadow:0 20px 60px var(--shadow-green);
+  animation:centerPulse 4s ease-in-out infinite;
+  z-index:5;
+}
+@keyframes centerPulse{0%,100%{transform:translate(-50%,-50%) scale(1)}50%{transform:translate(-50%,-50%) scale(1.04)}}
+.orbit-center-face{
+  display:flex;flex-direction:column;align-items:center;gap:4px;
+}
+.orbit-face-eyes{display:flex;gap:14px}
+.orbit-eye{
+  width:16px;height:16px;border-radius:50%;
+  background:white;position:relative;
+}
+.orbit-eye::after{
+  content:'';position:absolute;bottom:2px;left:50%;transform:translateX(-50%);
+  width:8px;height:3px;
+  border-bottom:2.5px solid var(--green);border-radius:0 0 6px 6px;
+}
+.orbit-smile{
+  width:30px;height:12px;border-bottom:3px solid white;
+  border-radius:0 0 20px 20px;
+}
+
+.food-item{
+  position:absolute;
+  width:80px;height:80px;
+  border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  background:white;
+  box-shadow:0 8px 30px rgba(30,58,47,.15);
+  cursor:pointer;
+  transition:transform .3s,box-shadow .3s;
+  animation:orbitFloat 5s ease-in-out infinite alternate;
+}
+.food-item:hover{transform:scale(1.2)!important;box-shadow:0 16px 40px rgba(30,58,47,.25)!important;z-index:10}
+.food-item svg{width:50px;height:50px}
+
+.fi-0{top:10px;left:50%;transform:translateX(-50%);animation-delay:0s}
+.fi-1{top:80px;right:30px;animation-delay:.7s}
+.fi-2{bottom:80px;right:30px;animation-delay:1.4s}
+.fi-3{bottom:10px;left:50%;transform:translateX(-50%);animation-delay:2.1s}
+.fi-4{bottom:80px;left:30px;animation-delay:2.8s}
+.fi-5{top:80px;left:30px;animation-delay:3.5s}
+
+@keyframes orbitFloat{
+  0%{box-shadow:0 8px 30px rgba(30,58,47,.15)}
+  100%{box-shadow:0 16px 40px rgba(30,58,47,.22)}
+}
+
+.orbit-ring{
+  position:absolute;top:50%;left:50%;
+  width:340px;height:340px;
+  border-radius:50%;
+  border:1.5px dashed rgba(30,58,47,.12);
+  transform:translate(-50%,-50%);
+  animation:spinSlow 30s linear infinite;
+}
+@keyframes spinSlow{to{transform:translate(-50%,-50%) rotate(360deg)}}
+
+/* Floating label cards */
+.float-card{
+  position:absolute;background:white;border-radius:16px;
+  padding:10px 16px;box-shadow:0 8px 30px rgba(30,58,47,.1);
+  font-size:.75rem;font-weight:700;
+  border:1px solid rgba(30,58,47,.06);
+  animation:cardFloat 5s ease-in-out infinite alternate;
+  white-space:nowrap;z-index:6;color:var(--green);
+}
+.fc1{top:12%;left:-8%;animation-delay:0s}
+.fc2{top:8%;right:-10%;animation-delay:1.8s}
+.fc3{bottom:14%;right:-12%;animation-delay:.9s}
+@keyframes cardFloat{0%{transform:translateY(0) rotate(-1deg)}100%{transform:translateY(-12px) rotate(1deg)}}
+.fc-accent{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:6px;vertical-align:middle}
+
+/* SCROLL REVEAL BASE */
+.reveal{
+  opacity:0;transform:translateY(40px);
+  transition:opacity .8s cubic-bezier(.16,1,.3,1),transform .8s cubic-bezier(.16,1,.3,1);
+}
+.reveal.visible{opacity:1;transform:translateY(0)}
+.reveal-left{opacity:0;transform:translateX(-40px);transition:opacity .8s cubic-bezier(.16,1,.3,1),transform .8s cubic-bezier(.16,1,.3,1)}
+.reveal-left.visible{opacity:1;transform:translateX(0)}
+.reveal-right{opacity:0;transform:translateX(40px);transition:opacity .8s cubic-bezier(.16,1,.3,1),transform .8s cubic-bezier(.16,1,.3,1)}
+.reveal-right.visible{opacity:1;transform:translateX(0)}
+.reveal-scale{opacity:0;transform:scale(.92);transition:opacity .7s cubic-bezier(.16,1,.3,1),transform .7s cubic-bezier(.16,1,.3,1)}
+.reveal-scale.visible{opacity:1;transform:scale(1)}
+.delay-1{transition-delay:.1s}.delay-2{transition-delay:.2s}.delay-3{transition-delay:.3s}
+.delay-4{transition-delay:.4s}.delay-5{transition-delay:.5s}.delay-6{transition-delay:.6s}
+
+/* ====== MARQUEE ====== */
+.marquee-wrap{
+  background:var(--green);padding:1rem 0;
+  overflow:hidden;display:flex;
+}
+.marquee-track{
+  display:flex;gap:3rem;align-items:center;
+  animation:marqueeScroll 20s linear infinite;
+  white-space:nowrap;
+}
+@keyframes marqueeScroll{to{transform:translateX(-50%)}}
+.marquee-item{
+  display:flex;align-items:center;gap:.7rem;
+  font-size:.78rem;font-weight:700;color:rgba(245,240,230,.6);
+  letter-spacing:.1em;text-transform:uppercase;
+}
+.marquee-dot{width:5px;height:5px;border-radius:50%;background:var(--coral);flex-shrink:0}
+
+/* ====== MOOD SECTION ====== */
+.mood-section{
+  padding:7rem 4rem;background:var(--cream);
+  position:relative;
+}
+.section-eyebrow{
+  font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;
+  font-weight:700;color:var(--coral);margin-bottom:1rem;
+}
+.section-h2{
+  font-family:'DM Serif Display',serif;
+  font-size:clamp(2.2rem,4vw,3.4rem);
+  line-height:1.12;font-weight:400;
+  color:var(--green);margin-bottom:1.2rem;letter-spacing:-.02em;
+}
+.section-sub{font-size:1rem;color:var(--muted);line-height:1.75;max-width:480px;font-weight:400}
+
+.mood-grid{
+  display:grid;grid-template-columns:repeat(7,1fr);
+  gap:1rem;margin-top:3.5rem;
+}
+.mood-card{
+  background:white;border-radius:22px;
+  padding:1.6rem .8rem;text-align:center;
+  cursor:pointer;
+  border:2px solid transparent;
+  transition:all .3s cubic-bezier(.34,1.56,.64,1);
+  position:relative;overflow:hidden;
+}
+.mood-card::before{
+  content:'';position:absolute;inset:0;border-radius:20px;
+  background:linear-gradient(135deg,rgba(245,200,66,.1),rgba(232,103,74,.08));
+  opacity:0;transition:opacity .3s;
+}
+.mood-card:hover{transform:translateY(-8px) scale(1.03);border-color:var(--amber);box-shadow:0 16px 40px var(--shadow-amber)}
+.mood-card:hover::before{opacity:1}
+.mood-card.active{border-color:var(--coral);background:white;box-shadow:0 12px 36px var(--shadow-coral);transform:translateY(-6px) scale(1.03)}
+.mood-icon-wrap{
+  width:64px;height:64px;border-radius:50%;margin:0 auto 1rem;
+  display:flex;align-items:center;justify-content:center;
+  transition:transform .3s;
+}
+.mood-card:hover .mood-icon-wrap{transform:scale(1.1) rotate(-5deg)}
+.mood-icon-wrap svg{width:42px;height:42px}
+.mood-name{font-size:.8rem;font-weight:800;color:var(--green);margin-bottom:3px}
+.mood-sub{font-size:.66rem;color:var(--muted);font-weight:600}
+
+/* Food suggestions */
+.food-suggest-panel{
+  margin-top:2.5rem;background:white;border-radius:28px;
+  border:1px solid rgba(30,58,47,.07);padding:2rem 2.2rem;
+  display:none;
+}
+.food-suggest-panel.visible{display:block;animation:panelIn .5s cubic-bezier(.16,1,.3,1)}
+@keyframes panelIn{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+.fsp-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:1.8rem}
+.fsp-title{font-family:'DM Serif Display',serif;font-size:1.3rem;color:var(--green)}
+.fsp-badge{background:var(--cream);padding:5px 14px;border-radius:100px;font-size:.7rem;font-weight:700;color:var(--muted)}
+.food-row{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem}
+.food-chip{
+  background:var(--cream);border-radius:18px;padding:1.4rem 1rem;
+  text-align:center;cursor:pointer;
+  border:1.5px solid transparent;
+  transition:all .25s cubic-bezier(.34,1.56,.64,1);
+}
+.food-chip:hover{background:white;border-color:var(--amber);transform:scale(1.05) translateY(-4px);box-shadow:0 8px 24px var(--shadow-amber)}
+.food-chip-icon{width:52px;height:52px;margin:0 auto 10px}
+.food-chip-icon svg{width:100%;height:100%}
+.food-chip-name{font-size:.82rem;font-weight:800;color:var(--green)}
+.food-chip-meta{font-size:.65rem;color:var(--muted);margin-top:3px;font-weight:600}
+
+/* ====== PANTRY SECTION ====== */
+.pantry-section{
+  background:var(--green);padding:7rem 4rem;
+  position:relative;overflow:hidden;
+}
+.pantry-section::before{
+  content:'';position:absolute;top:-100px;right:-100px;
+  width:400px;height:400px;border-radius:50%;
+  background:radial-gradient(circle,rgba(245,200,66,.15),transparent 70%);
+}
+.pantry-inner{
+  display:grid;grid-template-columns:1fr 1fr;
+  gap:5rem;align-items:center;
+  max-width:1280px;margin:0 auto;position:relative;z-index:2;
+}
+.pantry-eyebrow{color:var(--amber);font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;font-weight:700;margin-bottom:1rem}
+.pantry-h2{
+  font-family:'DM Serif Display',serif;
+  font-size:clamp(2rem,3.5vw,3.2rem);
+  line-height:1.12;color:white;margin-bottom:1.4rem;
+}
+.pantry-h2 em{font-style:italic;color:var(--amber)}
+.pantry-sub{font-size:.95rem;color:rgba(245,240,230,.6);line-height:1.75;font-weight:400;max-width:380px;margin-bottom:2.5rem}
+.pantry-points{display:flex;flex-direction:column;gap:1.4rem}
+.pp{display:flex;gap:1rem;align-items:flex-start}
+.pp-icon{
+  width:42px;height:42px;border-radius:12px;flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;
+  background:rgba(245,240,230,.08);
+}
+.pp-icon svg{width:24px;height:24px}
+.pp-title{font-size:.9rem;font-weight:800;color:white;margin-bottom:3px}
+.pp-desc{font-size:.82rem;color:rgba(245,240,230,.55);line-height:1.6;font-weight:400}
+
+/* Pantry card visual */
+.pantry-card{
+  background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);
+  border-radius:28px;padding:2rem;backdrop-filter:blur(10px);
+}
+.pantry-card-top{font-size:.7rem;letter-spacing:.08em;text-transform:uppercase;color:rgba(245,240,230,.35);margin-bottom:1rem;font-weight:700}
+.pantry-pills{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:1.6rem}
+.ppill{
+  background:rgba(255,255,255,.1);color:rgba(245,240,230,.8);
+  padding:6px 14px;border-radius:100px;font-size:.78rem;font-weight:700;
+  border:1px solid rgba(255,255,255,.12);
+  display:flex;align-items:center;gap:6px;
+  transition:background .2s;cursor:pointer;
+}
+.ppill:hover{background:rgba(245,200,66,.2);border-color:rgba(245,200,66,.4)}
+.ppill.used{background:rgba(245,200,66,.2);border-color:var(--amber);color:var(--amber)}
+.recipe-result{background:white;border-radius:18px;padding:1.4rem 1.6rem}
+.recipe-result-label{font-size:.66rem;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);font-weight:700;margin-bottom:.6rem}
+.recipe-result-name{font-family:'DM Serif Display',serif;font-size:1.2rem;color:var(--green);margin-bottom:.9rem}
+.recipe-tags-row{display:flex;gap:6px;flex-wrap:wrap}
+.rtag{padding:4px 12px;border-radius:100px;font-size:.68rem;font-weight:700}
+.rtag-v{background:#EAF3DE;color:#3B6D11}
+.rtag-t{background:#FAEEDA;color:#854F0B}
+.rtag-c{background:#FAECE7;color:#993C1D}
+
+/* ====== COMMUNITY ====== */
+.community-section{padding:7rem 4rem;background:var(--cream-dark)}
+.comm-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;margin-top:3.5rem}
+.comm-card{
+  background:white;border-radius:24px;overflow:hidden;
+  border:1px solid rgba(30,58,47,.07);
+  transition:transform .3s cubic-bezier(.34,1.56,.64,1),box-shadow .3s;
+  cursor:pointer;
+}
+.comm-card:hover{transform:translateY(-8px);box-shadow:0 20px 50px rgba(30,58,47,.12)}
+.comm-img{
+  height:180px;display:flex;align-items:center;justify-content:center;
+  position:relative;overflow:hidden;
+}
+.comm-img svg{width:100px;height:100px;filter:drop-shadow(0 12px 24px rgba(0,0,0,.15))}
+.comm-img-bg1{background:linear-gradient(135deg,#FAEEDA,#FAC775)}
+.comm-img-bg2{background:linear-gradient(135deg,#EAF3DE,#8FAF78)}
+.comm-img-bg3{background:linear-gradient(135deg,#FAECE7,#E8674A)}
+.comm-body{padding:1.3rem 1.5rem}
+.comm-user{display:flex;align-items:center;gap:8px;margin-bottom:10px}
+.comm-av{width:28px;height:28px;border-radius:50%;font-size:.68rem;font-weight:800;display:flex;align-items:center;justify-content:center}
+.av1{background:#FAC775;color:#633806}
+.av2{background:#8FAF78;color:#1E3A2F}
+.av3{background:#E8674A;color:white}
+.comm-uname{font-size:.78rem;font-weight:800;color:var(--green)}
+.comm-badge{margin-left:auto;font-size:.62rem;font-weight:700;padding:3px 10px;border-radius:100px;background:var(--cream);color:var(--muted)}
+.comm-recipe{font-family:'DM Serif Display',serif;font-size:1.05rem;color:var(--green);margin-bottom:8px}
+.comm-meta{font-size:.72rem;color:var(--muted);font-weight:700;display:flex;gap:12px}
+
+/* ====== TRACKER ====== */
+.tracker-section{padding:7rem 4rem;background:var(--cream);overflow:hidden}
+.tracker-inner{display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:center;max-width:1280px;margin:0 auto}
+.tracker-report{
+  background:var(--green);border-radius:28px;padding:2rem;
+  position:relative;overflow:hidden;
+}
+.tracker-report::before{
+  content:'';position:absolute;top:-60px;right:-60px;width:200px;height:200px;border-radius:50%;
+  background:radial-gradient(circle,rgba(245,200,66,.2),transparent 70%);
+}
+.tr-month{font-size:.66rem;letter-spacing:.1em;text-transform:uppercase;color:rgba(245,240,230,.35);font-weight:700;margin-bottom:.8rem}
+.tr-title{font-family:'DM Serif Display',serif;font-size:1.2rem;color:white;margin-bottom:1.6rem}
+.nutr-row{display:flex;align-items:center;gap:10px;margin-bottom:12px}
+.nutr-label{font-size:.72rem;color:rgba(245,240,230,.5);font-weight:700;width:76px;flex-shrink:0}
+.nutr-bg{flex:1;height:7px;background:rgba(255,255,255,.1);border-radius:100px;overflow:hidden}
+.nutr-fill{height:100%;border-radius:100px;transition:width 1.5s cubic-bezier(.16,1,.3,1)}
+.nutr-pct{font-size:.68rem;color:rgba(255,255,255,.35);font-weight:700;width:32px;text-align:right}
+.tr-chips{display:flex;gap:7px;flex-wrap:wrap;margin-top:1.4rem}
+.tr-chip{padding:5px 12px;border-radius:100px;font-size:.68rem;font-weight:700;background:rgba(255,255,255,.07);color:rgba(245,240,230,.55);border:1px solid rgba(255,255,255,.08)}
+.cookbook-cards{position:absolute;top:-24px;right:-16px;display:flex;flex-direction:column;gap:8px}
+.cbc{
+  background:white;border-radius:10px;padding:8px 14px;
+  font-size:.7rem;font-weight:800;color:var(--green);
+  box-shadow:0 8px 24px rgba(30,58,47,.15);
+  animation:cardFloat 4s ease-in-out infinite alternate;
+  white-space:nowrap;
+}
+.cbc:nth-child(2){animation-delay:1.5s;margin-left:16px}
+.cbc:nth-child(3){animation-delay:.9s}
+
+/* ====== RESTAURANT ====== */
+.rest-section{padding:7rem 4rem;background:var(--cream-dark)}
+.rest-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1.2rem;margin-top:3.5rem}
+.rest-card{
+  background:white;border-radius:22px;padding:1.5rem;
+  border:1px solid rgba(30,58,47,.07);
+  transition:transform .3s cubic-bezier(.34,1.56,.64,1),box-shadow .3s;
+  cursor:pointer;
+}
+.rest-card:hover{transform:translateY(-6px);box-shadow:0 16px 40px rgba(30,58,47,.1)}
+.rest-food-icon{width:56px;height:56px;margin-bottom:.8rem}
+.rest-food-icon svg{width:100%;height:100%}
+.rest-name{font-weight:800;font-size:.95rem;color:var(--green);margin-bottom:3px}
+.rest-type{font-size:.75rem;color:var(--muted);margin-bottom:1rem;font-weight:600}
+.rest-match-row{display:flex;align-items:center;gap:8px}
+.rest-bar-bg{flex:1;height:5px;background:var(--cream);border-radius:100px;overflow:hidden}
+.rest-bar-fill{height:100%;background:var(--green-light);border-radius:100px}
+.rest-pct{font-size:.7rem;font-weight:800;color:var(--green-mid)}
+.rest-badge{
+  position:absolute;top:14px;right:14px;
+  background:var(--coral);color:white;font-size:.58rem;font-weight:800;
+  padding:3px 10px;border-radius:100px;letter-spacing:.05em;text-transform:uppercase;
+}
+.rest-card{position:relative}
+
+/* ====== CTA ====== */
+.cta-section{
+  background:var(--green);padding:9rem 4rem;text-align:center;
+  position:relative;overflow:hidden;
+}
+.cta-blob{
+  position:absolute;border-radius:50%;filter:blur(80px);
+  animation:blobDrift 8s ease-in-out infinite alternate;
+}
+.cta-blob1{width:400px;height:400px;background:rgba(245,200,66,.15);top:-100px;left:-100px}
+.cta-blob2{width:350px;height:350px;background:rgba(232,103,74,.12);bottom:-80px;right:-80px;animation-delay:3s}
+.cta-eyebrow{font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;font-weight:700;color:var(--amber);margin-bottom:1.2rem}
+.cta-h2{
+  font-family:'DM Serif Display',serif;
+  font-size:clamp(2.5rem,5vw,4.5rem);
+  line-height:1.1;color:white;font-weight:400;
+  margin-bottom:1.4rem;letter-spacing:-.03em;
+  position:relative;z-index:2;
+}
+.cta-h2 em{font-style:italic;color:var(--amber)}
+.cta-sub{font-size:.98rem;color:rgba(245,240,230,.55);line-height:1.75;max-width:400px;margin:0 auto 3rem;font-weight:400}
+.cta-form{display:flex;max-width:440px;margin:0 auto;border-radius:100px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.15);overflow:hidden}
+.cta-input{flex:1;background:transparent;border:none;outline:none;padding:1rem 1.5rem;font-family:'Nunito',sans-serif;font-size:.9rem;color:white;font-weight:600}
+.cta-input::placeholder{color:rgba(245,240,230,.35)}
+.cta-submit{background:var(--coral);color:white;border:none;padding:0 2rem;font-family:'Nunito',sans-serif;font-size:.85rem;font-weight:800;cursor:pointer;transition:background .2s;white-space:nowrap}
+.cta-submit:hover{background:var(--amber);color:var(--green)}
+.cta-success{margin-top:1rem;font-size:.82rem;color:var(--amber);font-weight:700;display:none}
+
+/* FOOTER */
+footer{
+  background:#162E24;color:rgba(245,240,230,.4);
+  padding:2.5rem 4rem;display:flex;justify-content:space-between;align-items:center;
+  font-size:.78rem;font-weight:600;
+}
+.foot-logo{font-family:'Nunito',sans-serif;font-weight:900;font-size:1.3rem;color:white;letter-spacing:-.02em}
+.foot-logo span{color:var(--coral)}
+.foot-links{display:flex;gap:1.8rem}
+.foot-links a{color:rgba(245,240,230,.4);text-decoration:none;transition:color .2s;font-weight:700}
+.foot-links a:hover{color:rgba(245,240,230,.8)}
+
+/* PARALLAX decorative food items */
+.parallax-food{
+  position:absolute;pointer-events:none;
+  will-change:transform;
+  filter:drop-shadow(0 16px 32px rgba(30,58,47,.2));
+}
+
+@media(max-width:900px){
+  nav{padding:1rem 1.5rem}
+  .nav-links{display:none}
+  .hero-inner,.pantry-inner,.tracker-inner{grid-template-columns:1fr;gap:3rem}
+  .hero{padding:6rem 1.5rem 3rem}
+  .food-orbit{width:320px;height:320px}
+  .fi-0,.fi-1,.fi-2,.fi-3,.fi-4,.fi-5{width:60px;height:60px}
+  .mood-grid{grid-template-columns:repeat(4,1fr)}
+  .food-row,.rest-grid,.comm-grid{grid-template-columns:repeat(2,1fr)}
+  .mood-section,.pantry-section,.community-section,.tracker-section,.rest-section,.cta-section{padding:5rem 1.5rem}
+  footer{flex-direction:column;gap:1rem;text-align:center}
+}
+</style>
+</head>
+<body>
+
+<!-- CURSOR -->
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<!-- NAV -->
+<nav id="mainNav">
+  <div class="logo-text">
+    mo
+    <span class="logo-oo">
+      <span class="logo-o1">
+        <span class="logo-leaf">🌿</span>
+        <span class="logo-face"></span>
+      </span>
+      <span class="logo-o2">
+        <span class="logo-face"></span>
+      </span>
+    </span>
+    food
+  </div>
+  <ul class="nav-links">
+    <li><a href="#mood">Mood</a></li>
+    <li><a href="#pantry">Pantry</a></li>
+    <li><a href="#community">Community</a></li>
+    <li><a href="#tracker">Tracker</a></li>
+  </ul>
+  <a href="#waitlist" class="nav-cta">Get early access ✦</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg-blob">
+    <div class="blob blob1"></div>
+    <div class="blob blob2"></div>
+    <div class="blob blob3"></div>
+  </div>
+  <div class="hero-inner">
+    <div class="hero-left">
+      <div class="hero-tag reveal"><span class="hero-tag-dot"></span> Mood · Food · You</div>
+      <h1 class="hero-h1 reveal delay-1">
+        Stop stressing about<br>
+        <span class="italic">what to eat.</span><br>
+        <span class="underline-wavy">Just feel it.</span>
+      </h1>
+      <p class="hero-sub reveal delay-2">Moofood reads your mood, knows your pantry, and serves up exactly what your gut — and heart — is craving. From scratch or a shortcut away.</p>
+      <div class="hero-actions reveal delay-3">
+        <a href="#waitlist" class="btn-primary">Start for free ↗</a>
+        <a href="#mood" class="btn-secondary">See how it works →</a>
+      </div>
+    </div>
+    <div class="hero-right reveal-right delay-2">
+      <div class="food-orbit">
+        <div class="orbit-ring"></div>
+        <div class="orbit-center">
+          <div class="orbit-center-face">
+            <div class="orbit-face-eyes">
+              <div class="orbit-eye"></div>
+              <div class="orbit-eye"></div>
+            </div>
+            <div class="orbit-smile"></div>
+          </div>
+        </div>
+
+        <!-- 3D food SVG items -->
+        <div class="food-item fi-0"><!-- Ramen Bowl -->
+          <svg viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <ellipse cx="30" cy="42" rx="22" ry="10" fill="#C9813A" opacity=".3"/>
+            <rect x="8" y="28" width="44" height="18" rx="10" fill="#E8A55C"/>
+            <rect x="10" y="28" width="40" height="8" rx="6" fill="#F2C07A"/>
+            <ellipse cx="30" cy="28" rx="20" ry="6" fill="#FDDEA0"/>
+            <circle cx="20" cy="27" r="3" fill="#E05C4B" opacity=".85"/>
+            <circle cx="30" cy="26" r="3" fill="#4CAF50" opacity=".85"/>
+            <circle cx="40" cy="27" r="3" fill="#FFCC02" opacity=".85"/>
+            <path d="M23 14 Q25 8 27 14" stroke="#4CAF50" stroke-width="2" stroke-linecap="round" fill="none"/>
+            <path d="M30 12 Q32 6 34 12" stroke="#4CAF50" stroke-width="2" stroke-linecap="round" fill="none"/>
+          </svg>
+        </div>
+
+        <div class="food-item fi-1"><!-- Avocado -->
+          <svg viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <ellipse cx="30" cy="35" rx="16" ry="20" fill="#5D8A3C"/>
+            <ellipse cx="30" cy="33" rx="13" ry="17" fill="#7DB356"/>
+            <ellipse cx="30" cy="32" rx="10" ry="14" fill="#A8D064"/>
+            <ellipse cx="30" cy="36" rx="6" ry="8" fill="#D4843A"/>
+            <ellipse cx="30" cy="35" rx="4" ry="6" fill="#B86828"/>
+            <rect x="28" y="13" width="4" height="10" rx="2" fill="#8B5E3C"/>
+            <ellipse cx="30" cy="13" rx="5" ry="3" fill="#5D8A3C"/>
+          </svg>
+        </div>
+
+        <div class="food-item fi-2"><!-- Taco -->
+          <svg viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M10 36 Q30 10 50 36" stroke="#F5C842" stroke-width="8" stroke-linecap="round" fill="none"/>
+            <path d="M12 36 Q30 12 48 36" stroke="#F9D96A" stroke-width="5" stroke-linecap="round" fill="none"/>
+            <ellipse cx="30" cy="36" rx="18" ry="8" fill="#E05C4B" opacity=".9"/>
+            <ellipse cx="24" cy="34" rx="5" ry="3" fill="#4CAF50" opacity=".9"/>
+            <ellipse cx="36" cy="34" rx="5" ry="3" fill="#4CAF50" opacity=".9"/>
+            <circle cx="30" cy="35" r="3" fill="#FFF176" opacity=".9"/>
+          </svg>
+        </div>
+
+        <div class="food-item fi-3"><!-- Sushi -->
+          <svg viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="8" y="30" width="44" height="18" rx="9" fill="#E8F5E9"/>
+            <rect x="8" y="28" width="44" height="12" rx="6" fill="white"/>
+            <ellipse cx="30" cy="28" rx="22" ry="8" fill="white"/>
+            <ellipse cx="30" cy="26" rx="18" ry="6" fill="#FF6B6B" opacity=".9"/>
+            <ellipse cx="30" cy="25" rx="14" ry="4" fill="#FF8E8E" opacity=".8"/>
+            <rect x="14" y="28" width="32" height="8" fill="#2E7D32" rx="3"/>
+            <ellipse cx="30" cy="36" rx="16" ry="4" fill="#F1F8E9"/>
+          </svg>
+        </div>
+
+        <div class="food-item fi-4"><!-- Pizza slice -->
+          <svg viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M30 10 L8 48 L52 48 Z" fill="#F5C842"/>
+            <path d="M30 12 L10 46 L50 46 Z" fill="#F2A07B"/>
+            <path d="M30 14 L12 44 L48 44 Z" fill="#E8674A" opacity=".7"/>
+            <circle cx="30" cy="28" r="4" fill="#C62828"/>
+            <circle cx="22" cy="36" r="3" fill="#C62828"/>
+            <circle cx="38" cy="36" r="3" fill="#C62828"/>
+            <path d="M8 48 L52 48" stroke="#D4A050" stroke-width="6" stroke-linecap="round"/>
+            <circle cx="20" cy="42" r="2" fill="#4CAF50"/>
+            <circle cx="35" cy="40" r="2" fill="#4CAF50"/>
+          </svg>
+        </div>
+
+        <div class="food-item fi-5"><!-- Matcha Latte -->
+          <svg viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="14" y="22" width="32" height="28" rx="6" fill="#F5F5F5"/>
+            <rect x="14" y="22" width="32" height="28" rx="6" fill="url(#cup)"/>
+            <defs><linearGradient id="cup" x1="14" y1="22" x2="46" y2="50" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#E0F2F1"/><stop offset="100%" stop-color="#80CBC4"/></linearGradient></defs>
+            <ellipse cx="30" cy="22" rx="16" ry="5" fill="#A5D6A7"/>
+            <ellipse cx="30" cy="22" rx="13" ry="4" fill="#66BB6A"/>
+            <ellipse cx="28" cy="21" rx="4" ry="2" fill="rgba(255,255,255,.4)"/>
+            <path d="M46 30 Q54 30 54 36 Q54 42 46 42" stroke="#E0E0E0" stroke-width="3" fill="none" stroke-linecap="round"/>
+            <path d="M22 10 Q24 4 26 10" stroke="#66BB6A" stroke-width="2" stroke-linecap="round" fill="none"/>
+            <path d="M30 8 Q32 2 34 8" stroke="#66BB6A" stroke-width="2" stroke-linecap="round" fill="none"/>
+          </svg>
+        </div>
+      </div>
+
+      <!-- Floating cards -->
+      <div class="float-card fc1">
+        <span class="fc-accent" style="background:#E8674A"></span> Mood detected: Cozy 😌
+      </div>
+      <div class="float-card fc2">
+        🥕 8 pantry items ready
+      </div>
+      <div class="float-card fc3">
+        ✨ 97% flavor match
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee-wrap">
+  <div class="marquee-track" id="marqueeTrack">
+    <div class="marquee-item"><span class="marquee-dot"></span> Mood-first recipes</div>
+    <div class="marquee-item"><span class="marquee-dot"></span> Pantry intelligence</div>
+    <div class="marquee-item"><span class="marquee-dot"></span> Community challenges</div>
+    <div class="marquee-item"><span class="marquee-dot"></span> Personal cookbook</div>
+    <div class="marquee-item"><span class="marquee-dot"></span> Nutrition tracking</div>
+    <div class="marquee-item"><span class="marquee-dot"></span> Restaurant matching</div>
+    <div class="marquee-item"><span class="marquee-dot"></span> Flavor profiling</div>
+    <div class="marquee-item"><span class="marquee-dot"></span> Mood-first recipes</div>
+    <div class="marquee-item"><span class="marquee-dot"></span> Pantry intelligence</div>
+    <div class="marquee-item"><span class="marquee-dot"></span> Community challenges</div>
+    <div class="marquee-item"><span class="marquee-dot"></span> Personal cookbook</div>
+    <div class="marquee-item"><span class="marquee-dot"></span> Nutrition tracking</div>
+    <div class="marquee-item"><span class="marquee-dot"></span> Restaurant matching</div>
+    <div class="marquee-item"><span class="marquee-dot"></span> Flavor profiling</div>
+  </div>
+</div>
+
+<!-- MOOD SECTION -->
+<section class="mood-section" id="mood">
+  <div style="max-width:1280px;margin:0 auto">
+    <div class="section-eyebrow reveal">01 — Mood Matching</div>
+    <h2 class="section-h2 reveal delay-1">Your gut knows.<br>We just listen.</h2>
+    <p class="section-sub reveal delay-2">Tap how you feel right now. Moofood maps your emotional state to food that genuinely fits — not just what's trending.</p>
+    <div class="mood-grid">
+      <div class="mood-card reveal delay-1" data-mood="amazing" onclick="pickMood(this)">
+        <div class="mood-icon-wrap" style="background:#FFF9E6">
+          <svg viewBox="0 0 42 42" fill="none"><circle cx="21" cy="21" r="19" fill="#F5C842"/><circle cx="21" cy="21" r="17" fill="#FFD84D"/><circle cx="14" cy="17" r="3" fill="#1E3A2F"/><circle cx="28" cy="17" r="3" fill="#1E3A2F"/><path d="M13 25 Q21 33 29 25" stroke="#1E3A2F" stroke-width="2.5" stroke-linecap="round" fill="none"/><circle cx="15" cy="16" r="1.2" fill="white"/><circle cx="29" cy="16" r="1.2" fill="white"/><path d="M12 12 L10 8" stroke="#F5C842" stroke-width="2" stroke-linecap="round"/><path d="M30 12 L32 8" stroke="#F5C842" stroke-width="2" stroke-linecap="round"/></svg>
+        </div>
+        <div class="mood-name">Amazing</div><div class="mood-sub">Celebrate big</div>
+      </div>
+      <div class="mood-card reveal delay-2" data-mood="happy" onclick="pickMood(this)">
+        <div class="mood-icon-wrap" style="background:#FFF3EE">
+          <svg viewBox="0 0 42 42" fill="none"><circle cx="21" cy="21" r="19" fill="#F2A07B"/><circle cx="21" cy="21" r="17" fill="#F5B48E"/><circle cx="14" cy="18" r="2.5" fill="#1E3A2F"/><circle cx="28" cy="18" r="2.5" fill="#1E3A2F"/><path d="M14 26 Q21 31 28 26" stroke="#1E3A2F" stroke-width="2.5" stroke-linecap="round" fill="none"/><circle cx="15" cy="17" r="1" fill="white"/><circle cx="29" cy="17" r="1" fill="white"/></svg>
+        </div>
+        <div class="mood-name">Happy</div><div class="mood-sub">Keep the vibe</div>
+      </div>
+      <div class="mood-card active reveal delay-3" data-mood="cozy" onclick="pickMood(this)">
+        <div class="mood-icon-wrap" style="background:#E8F5E9">
+          <svg viewBox="0 0 42 42" fill="none"><circle cx="21" cy="21" r="19" fill="#5D8A3C"/><circle cx="21" cy="21" r="17" fill="#7DB356"/><ellipse cx="14" cy="19" rx="3" ry="2" fill="#1E3A2F" transform="rotate(-15 14 19)"/><ellipse cx="28" cy="19" rx="3" ry="2" fill="#1E3A2F" transform="rotate(15 28 19)"/><path d="M15 26 Q21 30 27 26" stroke="#1E3A2F" stroke-width="2" stroke-linecap="round" fill="none"/></svg>
+        </div>
+        <div class="mood-name">Cozy</div><div class="mood-sub">Warm &amp; slow</div>
+      </div>
+      <div class="mood-card reveal delay-4" data-mood="meh" onclick="pickMood(this)">
+        <div class="mood-icon-wrap" style="background:#F5F5F5">
+          <svg viewBox="0 0 42 42" fill="none"><circle cx="21" cy="21" r="19" fill="#B0BEC5"/><circle cx="21" cy="21" r="17" fill="#CFD8DC"/><circle cx="14" cy="19" r="2.5" fill="#546E7A"/><circle cx="28" cy="19" r="2.5" fill="#546E7A"/><path d="M14 27 L28 27" stroke="#546E7A" stroke-width="2.5" stroke-linecap="round"/></svg>
+        </div>
+        <div class="mood-name">Meh</div><div class="mood-sub">Needs a nudge</div>
+      </div>
+      <div class="mood-card reveal delay-5" data-mood="stressed" onclick="pickMood(this)">
+        <div class="mood-icon-wrap" style="background:#FAECE7">
+          <svg viewBox="0 0 42 42" fill="none"><circle cx="21" cy="21" r="19" fill="#E8674A"/><circle cx="21" cy="21" r="17" fill="#EF7B60"/><path d="M11 15 L16 18" stroke="white" stroke-width="2" stroke-linecap="round"/><path d="M31 15 L26 18" stroke="white" stroke-width="2" stroke-linecap="round"/><circle cx="14" cy="20" r="2.5" fill="#1E3A2F"/><circle cx="28" cy="20" r="2.5" fill="#1E3A2F"/><path d="M14 28 Q21 22 28 28" stroke="#1E3A2F" stroke-width="2.5" stroke-linecap="round" fill="none"/></svg>
+        </div>
+        <div class="mood-name">Stressed</div><div class="mood-sub">Need comfort</div>
+      </div>
+      <div class="mood-card reveal delay-6" data-mood="low" onclick="pickMood(this)">
+        <div class="mood-icon-wrap" style="background:#E8EAF6">
+          <svg viewBox="0 0 42 42" fill="none"><circle cx="21" cy="21" r="19" fill="#7986CB"/><circle cx="21" cy="21" r="17" fill="#9FA8DA"/><circle cx="14" cy="19" r="2.5" fill="#1E3A2F"/><circle cx="28" cy="19" r="2.5" fill="#1E3A2F"/><path d="M14 28 Q21 24 28 28" stroke="#1E3A2F" stroke-width="2" stroke-linecap="round" fill="none"/><path d="M13 14 Q14 11 16 13" stroke="white" stroke-width="1.5" stroke-linecap="round" fill="none"/><path d="M29 14 Q30 11 32 13" stroke="white" stroke-width="1.5" stroke-linecap="round" fill="none"/></svg>
+        </div>
+        <div class="mood-name">Low</div><div class="mood-sub">Lift me up</div>
+      </div>
+      <div class="mood-card reveal delay-6" data-mood="indulge" onclick="pickMood(this)">
+        <div class="mood-icon-wrap" style="background:#FFF3EE">
+          <svg viewBox="0 0 42 42" fill="none"><circle cx="21" cy="21" r="19" fill="#E8674A"/><circle cx="21" cy="21" r="17" fill="#F2A07B"/><circle cx="14" cy="17" r="3" fill="#1E3A2F"/><circle cx="28" cy="17" r="3" fill="#1E3A2F"/><path d="M13 24 Q21 33 29 24" stroke="#1E3A2F" stroke-width="2.5" stroke-linecap="round" fill="none"/><path d="M18 28 Q21 32 24 28" stroke="#1E3A2F" stroke-width="2" stroke-linecap="round" fill="none"/></svg>
+        </div>
+        <div class="mood-name">Indulge</div><div class="mood-sub">No regrets</div>
+      </div>
+    </div>
+
+    <!-- Suggestions Panel -->
+    <div class="food-suggest-panel visible" id="foodPanel">
+      <div class="fsp-header">
+        <div class="fsp-title" id="fspTitle">😌 Cozy — warm &amp; comforting picks</div>
+        <div class="fsp-badge">Based on your flavor profile</div>
+      </div>
+      <div class="food-row" id="foodRow">
+        <!-- filled by JS -->
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PANTRY SECTION -->
+<section class="pantry-section" id="pantry">
+  <div class="pantry-inner">
+    <div>
+      <div class="pantry-eyebrow reveal">02 — Pantry Intelligence</div>
+      <h2 class="pantry-h2 reveal delay-1">Your fridge is already a<br><em>recipe book.</em></h2>
+      <p class="pantry-sub reveal delay-2">Tell us what you have. We generate recipes ranked by how many items you already own — zero grocery trips required.</p>
+      <div class="pantry-points">
+        <div class="pp reveal delay-2">
+          <div class="pp-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="rgba(245,240,230,.7)" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
+          </div>
+          <div><div class="pp-title">Expiry-aware suggestions</div><div class="pp-desc">Prioritizes items closest to expiry to minimize waste and save money.</div></div>
+        </div>
+        <div class="pp reveal delay-3">
+          <div class="pp-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="rgba(245,240,230,.7)" stroke-width="2" stroke-linecap="round"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+          </div>
+          <div><div class="pp-title">Flavor profile learning</div><div class="pp-desc">Builds your personal flavor map from every recipe you save and cook.</div></div>
+        </div>
+        <div class="pp reveal delay-4">
+          <div class="pp-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="rgba(245,240,230,.7)" stroke-width="2" stroke-linecap="round"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+          </div>
+          <div><div class="pp-title">Cultural cuisine mapping</div><div class="pp-desc">Tracks which cuisines you gravitate toward by mood, season, and week.</div></div>
+        </div>
+      </div>
+    </div>
+    <div class="reveal-right delay-2">
+      <div class="cookbook-cards">
+        <div class="cbc">📔 May Cookbook — 23 recipes</div>
+        <div class="cbc">📊 Nutrition exported ✓</div>
+        <div class="cbc">🏅 14-day streak!</div>
+      </div>
+      <div class="pantry-card" style="margin-top:80px">
+        <div class="pantry-card-top">✦ What's in your pantry?</div>
+        <div class="pantry-pills">
+          <div class="ppill used">🥚 Eggs</div>
+          <div class="ppill used">🍅 Tomatoes</div>
+          <div class="ppill">🧅 Onion</div>
+          <div class="ppill used">🫒 Olive oil</div>
+          <div class="ppill used">🧄 Garlic</div>
+          <div class="ppill">🌿 Basil</div>
+          <div class="ppill">🧀 Feta</div>
+          <div class="ppill used">🍋 Lemon</div>
+          <div class="ppill">🫙 Chickpeas</div>
+        </div>
+        <div class="recipe-result">
+          <div class="recipe-result-label">✦ Generated for you · 4/9 items match</div>
+          <div class="recipe-result-name">Shakshuka with Lemon Herb Oil</div>
+          <div class="recipe-tags-row">
+            <span class="rtag rtag-v">Vegetarian</span>
+            <span class="rtag rtag-t">30 min</span>
+            <span class="rtag rtag-c">Mediterranean</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- COMMUNITY -->
+<section class="community-section" id="community">
+  <div style="max-width:1280px;margin:0 auto">
+    <div class="section-eyebrow reveal">03 — Community</div>
+    <h2 class="section-h2 reveal delay-1">Copy, remix,<br>challenge.</h2>
+    <p class="section-sub reveal delay-2">Real people, real pantries. Browse what others are cooking and one-tap copy their recipe to try your own spin.</p>
+    <div class="comm-grid">
+      <div class="comm-card reveal delay-2">
+        <div class="comm-img comm-img-bg1">
+          <!-- 3D Paella SVG -->
+          <svg viewBox="0 0 100 100" fill="none"><ellipse cx="50" cy="70" rx="40" ry="14" fill="#C9813A" opacity=".3"/><ellipse cx="50" cy="58" rx="38" ry="13" fill="#D4943C"/><ellipse cx="50" cy="55" rx="36" ry="11" fill="#E8A55C"/><ellipse cx="50" cy="52" rx="34" ry="9" fill="#F2BF7A"/><circle cx="34" cy="49" r="5" fill="#E05C4B" opacity=".9"/><circle cx="50" cy="47" r="5" fill="#E05C4B" opacity=".9"/><circle cx="66" cy="49" r="5" fill="#E05C4B" opacity=".9"/><circle cx="42" cy="53" r="4" fill="#4CAF50" opacity=".8"/><circle cx="58" cy="53" r="4" fill="#4CAF50" opacity=".8"/><rect x="6" y="52" width="12" height="3" rx="1.5" fill="#8B5E3C"/><rect x="82" y="52" width="12" height="3" rx="1.5" fill="#8B5E3C"/></svg>
+        </div>
+        <div class="comm-body">
+          <div class="comm-user"><div class="comm-av av1">AN</div><div class="comm-uname">Ana N.</div><div class="comm-badge">🏆 Weekly challenge</div></div>
+          <div class="comm-recipe">Pantry Paella with Frozen Peas</div>
+          <div class="comm-meta"><span>❤️ 847</span><span>🔁 213 remixed</span><span>⏱ 45 min</span></div>
+        </div>
+      </div>
+      <div class="comm-card reveal delay-3">
+        <div class="comm-img comm-img-bg2">
+          <!-- 3D Salad SVG -->
+          <svg viewBox="0 0 100 100" fill="none"><ellipse cx="50" cy="72" rx="36" ry="12" fill="#4CAF50" opacity=".25"/><ellipse cx="50" cy="62" rx="34" ry="12" fill="#7CB342" opacity=".5"/><ellipse cx="50" cy="58" rx="32" ry="11" fill="#8BC34A" opacity=".8"/><ellipse cx="50" cy="55" rx="30" ry="9" fill="#AED581"/><circle cx="36" cy="50" r="7" fill="#FF7043" opacity=".9"/><circle cx="56" cy="48" r="5" fill="#FF7043" opacity=".9"/><circle cx="46" cy="54" r="6" fill="#FFCC02" opacity=".9"/><circle cx="62" cy="54" r="5" fill="#FFCC02" opacity=".9"/><path d="M30 46 Q50 36 70 46" stroke="#558B2F" stroke-width="3" stroke-linecap="round" fill="none" opacity=".6"/></svg>
+        </div>
+        <div class="comm-body">
+          <div class="comm-user"><div class="comm-av av2">JL</div><div class="comm-uname">James L.</div><div class="comm-badge">🌱 Waste-free</div></div>
+          <div class="comm-recipe">5-Ingredient Fridge Salad</div>
+          <div class="comm-meta"><span>❤️ 512</span><span>🔁 98 remixed</span><span>⏱ 15 min</span></div>
+        </div>
+      </div>
+      <div class="comm-card reveal delay-4">
+        <div class="comm-img comm-img-bg3">
+          <!-- 3D Tomato Soup SVG -->
+          <svg viewBox="0 0 100 100" fill="none"><ellipse cx="50" cy="74" rx="30" ry="10" fill="#B71C1C" opacity=".2"/><rect x="18" y="44" width="64" height="32" rx="14" fill="#E53935" opacity=".8"/><rect x="20" y="44" width="60" height="16" rx="10" fill="#EF5350"/><ellipse cx="50" cy="44" rx="30" ry="10" fill="#FF8A80"/><ellipse cx="44" cy="43" rx="8" ry="3" fill="rgba(255,255,255,.35)"/><ellipse cx="50" cy="58" rx="12" ry="3" fill="rgba(255,255,255,.15)"/><rect x="32" y="34" width="4" height="14" rx="2" fill="#8B5E3C"/><rect x="64" y="34" width="4" height="14" rx="2" fill="#8B5E3C"/></svg>
+        </div>
+        <div class="comm-body">
+          <div class="comm-user"><div class="comm-av av3">MK</div><div class="comm-uname">Mia K.</div><div class="comm-badge">🔥 Trending</div></div>
+          <div class="comm-recipe">Mom's Emergency Tomato Soup</div>
+          <div class="comm-meta"><span>❤️ 1.2k</span><span>🔁 445 remixed</span><span>⏱ 20 min</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TRACKER -->
+<section class="tracker-section" id="tracker">
+  <div class="tracker-inner">
+    <div>
+      <div class="section-eyebrow reveal">04 — Health Tracker</div>
+      <h2 class="section-h2 reveal delay-1">Your personal<br><span style="font-style:italic;color:var(--coral)">cookbook</span><br>meets nutrition lab.</h2>
+      <p class="section-sub reveal delay-2">Save recipes, snap meal photos, and Moofood auto-generates your personal cookbook with a full monthly nutrition report you can export.</p>
+      <div class="pantry-points" style="margin-top:2rem">
+        <div class="pp reveal delay-3" style="--pp-c:var(--green)">
+          <div class="pp-icon" style="background:rgba(30,58,47,.07)">
+            <svg viewBox="0 0 24 24" fill="none" stroke="var(--green-mid)" stroke-width="2" stroke-linecap="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+          </div>
+          <div><div class="pp-title" style="color:var(--green)">Monthly nutrition reports</div><div class="pp-desc" style="color:var(--muted)">Protein, carbs, fiber, micronutrient trends from every meal you logged.</div></div>
+        </div>
+        <div class="pp reveal delay-4">
+          <div class="pp-icon" style="background:rgba(30,58,47,.07)">
+            <svg viewBox="0 0 24 24" fill="none" stroke="var(--green-mid)" stroke-width="2" stroke-linecap="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+          </div>
+          <div><div class="pp-title" style="color:var(--green)">AI-generated cookbook</div><div class="pp-desc" style="color:var(--muted)">Your saved recipes and meal photos become a beautiful, printable cookbook.</div></div>
+        </div>
+        <div class="pp reveal delay-5">
+          <div class="pp-icon" style="background:rgba(30,58,47,.07)">
+            <svg viewBox="0 0 24 24" fill="none" stroke="var(--green-mid)" stroke-width="2" stroke-linecap="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          </div>
+          <div><div class="pp-title" style="color:var(--green)">Export PDF or CSV</div><div class="pp-desc" style="color:var(--muted)">Share with your dietitian or archive your eating history forever.</div></div>
+        </div>
+      </div>
+    </div>
+    <div class="reveal-right delay-2" style="position:relative">
+      <div class="cookbook-cards" style="position:absolute;top:-28px;right:-10px;z-index:10">
+        <div class="cbc">📔 May Cookbook · 23 recipes</div>
+        <div class="cbc">📊 Nutrition exported ✓</div>
+        <div class="cbc">🏅 14-day streak!</div>
+      </div>
+      <div class="tracker-report" style="margin-top:80px">
+        <div class="tr-month">May 2026 — Monthly Report</div>
+        <div class="tr-title">Your nutrition this month</div>
+        <div id="nutrBars">
+          <div class="nutr-row"><div class="nutr-label">Protein</div><div class="nutr-bg"><div class="nutr-fill" style="width:0%;background:#8FAF78" data-w="72"></div></div><div class="nutr-pct">72%</div></div>
+          <div class="nutr-row"><div class="nutr-label">Fiber</div><div class="nutr-bg"><div class="nutr-fill" style="width:0%;background:#F5C842" data-w="58"></div></div><div class="nutr-pct">58%</div></div>
+          <div class="nutr-row"><div class="nutr-label">Carbs</div><div class="nutr-bg"><div class="nutr-fill" style="width:0%;background:#E8674A" data-w="85"></div></div><div class="nutr-pct">85%</div></div>
+          <div class="nutr-row"><div class="nutr-label">Vitamins</div><div class="nutr-bg"><div class="nutr-fill" style="width:0%;background:#F2A07B" data-w="63"></div></div><div class="nutr-pct">63%</div></div>
+        </div>
+        <div class="tr-chips">
+          <div class="tr-chip">🥗 Mediterranean focus</div>
+          <div class="tr-chip">⬆️ +8% protein vs April</div>
+          <div class="tr-chip">23 unique recipes</div>
+          <div class="tr-chip">🌱 High plant diversity</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- RESTAURANT -->
+<section class="rest-section" id="restaurants">
+  <div style="max-width:1280px;margin:0 auto">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:start">
+      <div>
+        <div class="section-eyebrow reveal">05 — Smart Discovery</div>
+        <h2 class="section-h2 reveal delay-1">Not feeling like cooking?<br>We've got you.</h2>
+        <p class="section-sub reveal delay-2">Based on your flavor profile, Moofood surfaces restaurants that match your palate — surfaced only when you need them, never random ads.</p>
+        <div style="margin-top:2rem;display:flex;flex-direction:column;gap:1rem">
+          <div class="pp reveal delay-3">
+            <div class="pp-icon" style="background:rgba(30,58,47,.07)"><svg viewBox="0 0 24 24" fill="none" stroke="var(--green-mid)" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M12 8l4 4-4 4M8 12h8"/></svg></div>
+            <div><div class="pp-title" style="color:var(--green)">Flavor-matched, not sponsored</div><div class="pp-desc" style="color:var(--muted)">Restaurants rank by how well they match your taste history — never by payment.</div></div>
+          </div>
+          <div class="pp reveal delay-4">
+            <div class="pp-icon" style="background:rgba(30,58,47,.07)"><svg viewBox="0 0 24 24" fill="none" stroke="var(--green-mid)" stroke-width="2" stroke-linecap="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg></div>
+            <div><div class="pp-title" style="color:var(--green)">Indulge mode trigger</div><div class="pp-desc" style="color:var(--muted)">Recommendations appear only when you select "Indulge" or haven't cooked in 2+ days.</div></div>
+          </div>
+        </div>
+      </div>
+      <div class="rest-grid">
+        <div class="rest-card reveal delay-2">
+          <div class="rest-badge">Top pick</div>
+          <div class="rest-food-icon">
+            <svg viewBox="0 0 56 56" fill="none"><ellipse cx="28" cy="42" rx="20" ry="8" fill="#B86828" opacity=".3"/><rect x="8" y="26" width="40" height="18" rx="10" fill="#E8A55C"/><ellipse cx="28" cy="26" rx="20" ry="7" fill="#F9D96A"/><circle cx="20" cy="25" r="4" fill="#E05C4B" opacity=".9"/><circle cx="30" cy="23" r="4" fill="#4CAF50" opacity=".85"/><circle cx="38" cy="25" r="3" fill="#FFCC02" opacity=".9"/></svg>
+          </div>
+          <div class="rest-name">Yamato Ramen</div>
+          <div class="rest-type">Japanese · 0.8 mi</div>
+          <div class="rest-match-row"><div class="rest-bar-bg"><div class="rest-bar-fill" style="width:94%"></div></div><div class="rest-pct">94%</div></div>
+        </div>
+        <div class="rest-card reveal delay-3">
+          <div class="rest-food-icon">
+            <svg viewBox="0 0 56 56" fill="none"><ellipse cx="28" cy="44" rx="18" ry="6" fill="#C9813A" opacity=".25"/><rect x="10" y="30" width="36" height="16" rx="8" fill="#E8A55C"/><ellipse cx="28" cy="30" rx="18" ry="6" fill="#F5C842"/><circle cx="20" cy="28" r="5" fill="#5D8A3C" opacity=".9"/><circle cx="32" cy="27" r="4" fill="#5D8A3C" opacity=".85"/><circle cx="40" cy="29" r="3" fill="#7DB356" opacity=".9"/></svg>
+          </div>
+          <div class="rest-name">Leila's Kitchen</div>
+          <div class="rest-type">Mediterranean · 1.2 mi</div>
+          <div class="rest-match-row"><div class="rest-bar-bg"><div class="rest-bar-fill" style="width:88%"></div></div><div class="rest-pct">88%</div></div>
+        </div>
+        <div class="rest-card reveal delay-4">
+          <div class="rest-food-icon">
+            <svg viewBox="0 0 56 56" fill="none"><ellipse cx="28" cy="44" rx="18" ry="6" fill="#B71C1C" opacity=".2"/><rect x="10" y="28" width="36" height="18" rx="9" fill="#EF5350" opacity=".8"/><ellipse cx="28" cy="28" rx="18" ry="7" fill="#FF8A80"/><circle cx="22" cy="26" r="4" fill="#FF7043" opacity=".9"/><circle cx="34" cy="25" r="4" fill="#FF7043" opacity=".9"/><circle cx="28" cy="30" r="3" fill="#FFCC80" opacity=".9"/></svg>
+          </div>
+          <div class="rest-name">Spice Route</div>
+          <div class="rest-type">Indian · 2.0 mi</div>
+          <div class="rest-match-row"><div class="rest-bar-bg"><div class="rest-bar-fill" style="width:81%"></div></div><div class="rest-pct">81%</div></div>
+        </div>
+        <div class="rest-card reveal delay-5">
+          <div class="rest-food-icon">
+            <svg viewBox="0 0 56 56" fill="none"><ellipse cx="28" cy="44" rx="18" ry="6" fill="#5D8A3C" opacity=".2"/><path d="M10 30 Q28 14 46 30" stroke="#AED581" stroke-width="10" stroke-linecap="round" fill="none"/><path d="M12 30 Q28 16 44 30" stroke="#C5E1A5" stroke-width="7" stroke-linecap="round" fill="none"/><ellipse cx="28" cy="34" rx="16" ry="7" fill="#E05C4B" opacity=".8"/><circle cx="20" cy="32" r="3" fill="#FFCC02" opacity=".9"/><circle cx="36" cy="32" r="3" fill="#FFCC02" opacity=".9"/></svg>
+          </div>
+          <div class="rest-name">Falafel &amp; Co</div>
+          <div class="rest-type">Middle Eastern · 0.5 mi</div>
+          <div class="rest-match-row"><div class="rest-bar-bg"><div class="rest-bar-fill" style="width:76%"></div></div><div class="rest-pct">76%</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section" id="waitlist">
+  <div class="cta-blob cta-blob1"></div>
+  <div class="cta-blob cta-blob2"></div>
+  <div class="cta-eyebrow reveal">Early Access — Free</div>
+  <h2 class="cta-h2 reveal delay-1">Stop asking<br><em>"what should I eat?"</em></h2>
+  <p class="cta-sub reveal delay-2">Join thousands letting their mood guide their meals. Moofood is free to start.</p>
+  <div class="cta-form reveal delay-3">
+    <input class="cta-input" type="email" placeholder="your@email.com" id="ctaEmail">
+    <button class="cta-submit" onclick="joinWaitlist()">Join waitlist ✦</button>
+  </div>
+  <p class="cta-success" id="ctaSuccess">✓ You're on the list! Check your inbox soon.</p>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="foot-logo">moo<span>food</span></div>
+  <div>© 2026 Moofood Inc. — mood · food · you</div>
+  <div class="foot-links">
+    <a href="#">Privacy</a>
+    <a href="#">Terms</a>
+    <a href="#">Contact</a>
+  </div>
+</footer>
+
+<script>
+// CURSOR
+const cursor = document.getElementById('cursor');
+const ring = document.getElementById('cursorRing');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{
+  mx=e.clientX;my=e.clientY;
+  cursor.style.left=mx+'px';cursor.style.top=my+'px';
+});
+function animRing(){
+  rx+=(mx-rx)*.15;ry+=(my-ry)*.15;
+  ring.style.left=rx+'px';ring.style.top=ry+'px';
+  requestAnimationFrame(animRing);
+}animRing();
+
+// NAV scroll
+window.addEventListener('scroll',()=>{
+  document.getElementById('mainNav').classList.toggle('scrolled',window.scrollY>40);
+});
+
+// SCROLL REVEAL
+const revealEls=document.querySelectorAll('.reveal,.reveal-left,.reveal-right,.reveal-scale');
+const ro=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible')}});
+},{threshold:.12});
+revealEls.forEach(el=>ro.observe(el));
+
+// NUTRITION BAR ANIMATION
+const nutrObs=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      document.querySelectorAll('.nutr-fill').forEach(bar=>{
+        bar.style.width=bar.dataset.w+'%';
+      });
+      nutrObs.disconnect();
+    }
+  });
+},{threshold:.3});
+const nutrSection=document.querySelector('#tracker');
+if(nutrSection)nutrObs.observe(nutrSection);
+
+// PARALLAX on scroll
+window.addEventListener('scroll',()=>{
+  const sy=window.scrollY;
+  document.querySelectorAll('.blob').forEach((b,i)=>{
+    const speed=[.04,.03,.02][i]||.03;
+    b.style.transform=`translateY(${sy*speed}px)`;
+  });
+});
+
+// MOOD SELECTOR
+const moodData={
+  amazing:{title:'🤩 Amazing — treat yourself tonight',foods:[
+    {svg:'<svg viewBox="0 0 52 52" fill="none"><ellipse cx="26" cy="42" rx="20" ry="7" fill="#B86828" opacity=".2"/><rect x="6" y="24" width="40" height="20" rx="10" fill="#FFFDE7"/><ellipse cx="26" cy="24" rx="20" ry="7" fill="#FFF9C4"/><ellipse cx="26" cy="22" rx="16" ry="5" fill="#FFD84D"/><circle cx="18" cy="21" r="4" fill="#FF7043" opacity=".9"/><circle cx="26" cy="20" r="4" fill="#4CAF50" opacity=".85"/><circle cx="34" cy="21" r="4" fill="#FFCC02" opacity=".9"/></svg>',name:'Saffron Risotto',meta:'Italian · 45 min'},
+    {svg:'<svg viewBox="0 0 52 52" fill="none"><ellipse cx="26" cy="42" rx="20" ry="6" fill="#B71C1C" opacity=".15"/><rect x="10" y="28" width="32" height="16" rx="8" fill="#EF9A9A"/><rect x="8" y="24" width="36" height="10" rx="5" fill="#FFCDD2"/><ellipse cx="26" cy="24" rx="18" ry="6" fill="#FF8A80"/><ellipse cx="20" cy="23" rx="5" ry="2" fill="rgba(255,255,255,.4)"/></svg>',name:'Sashimi Platter',meta:'Japanese · 15 min'},
+    {svg:'<svg viewBox="0 0 52 52" fill="none"><circle cx="26" cy="30" r="18" fill="#F5C842"/><circle cx="26" cy="28" r="16" fill="#FFD84D"/><path d="M14 28 Q26 38 38 28" stroke="#E65100" stroke-width="3" fill="none" stroke-linecap="round"/><circle cx="20" cy="24" r="3" fill="#E65100" opacity=".7"/><circle cx="32" cy="24" r="3" fill="#E65100" opacity=".7"/><rect x="22" y="10" width="8" height="12" rx="4" fill="#E65100" opacity=".7"/></svg>',name:'Celebration Cake',meta:'Baking · 90 min'},
+    {svg:'<svg viewBox="0 0 52 52" fill="none"><ellipse cx="26" cy="44" rx="18" ry="6" fill="#4A148C" opacity=".1"/><rect x="10" y="30" width="32" height="16" rx="6" fill="#CE93D8" opacity=".4"/><rect x="8" y="22" width="36" height="14" rx="5" fill="#AB47BC" opacity=".8"/><ellipse cx="26" cy="22" rx="18" ry="6" fill="#E040FB" opacity=".6"/><ellipse cx="20" cy="21" rx="5" ry="2" fill="rgba(255,255,255,.4)"/></svg>',name:'Truffle Pasta',meta:'French · 35 min'},
+  ]},
+  happy:{title:'😊 Happy — keep the good times rolling',foods:[
+    {svg:'<svg viewBox="0 0 52 52" fill="none"><path d="M26 8 L8 44 L44 44 Z" fill="#F5C842"/><path d="M26 10 L10 42 L42 42 Z" fill="#F2A07B"/><circle cx="22" cy="30" r="4" fill="#C62828"/><circle cx="32" cy="28" r="4" fill="#C62828"/><circle cx="26" cy="35" r="3" fill="#4CAF50"/><path d="M8 44 L44 44" stroke="#D4A050" stroke-width="5" stroke-linecap="round"/></svg>',name:'Wood-fired Pizza',meta:'Italian · 25 min'},
+    {svg:'<svg viewBox="0 0 52 52" fill="none"><ellipse cx="26" cy="42" rx="18" ry="6" fill="#C9813A" opacity=".2"/><path d="M10 32 Q26 14 42 32" stroke="#F5C842" stroke-width="9" stroke-linecap="round" fill="none"/><ellipse cx="26" cy="34" rx="14" ry="8" fill="#E05C4B" opacity=".8"/><circle cx="19" cy="32" r="3" fill="#FFCC02" opacity=".9"/><circle cx="33" cy="32" r="3" fill="#4CAF50" opacity=".9"/></svg>',name:'Loaded Tacos',meta:'Mexican · 25 min'},
+    {svg:'<svg viewBox="0 0 52 52" fill="none"><ellipse cx="26" cy="44" rx="18" ry="5" fill="#5D4037" opacity=".2"/><rect x="8" y="32" width="36" height="12" rx="4" fill="#8D6E63"/><rect x="6" y="26" width="40" height="10" rx="5" fill="#A5D6A7"/><ellipse cx="26" cy="26" rx="20" ry="7" fill="#BCAAA4"/><ellipse cx="20" cy="25" rx="5" ry="2" fill="rgba(255,255,255,.3)"/></svg>',name:'Smash Burger',meta:'American · 20 min'},
+    {svg:'<svg viewBox="0 0 52 52" fill="none"><ellipse cx="26" cy="44" rx="18" ry="5" fill="#8FAF78" opacity=".25"/><rect x="10" y="30" width="32" height="16" rx="8" fill="#E8F5E9"/><ellipse cx="26" cy="30" rx="16" ry="7" fill="#AED581"/><circle cx="18" cy="28" r="5" fill="#FF7043" opacity=".8"/><circle cx="28" cy="27" r="4" fill="#FFCC02" opacity=".85"/><circle cx="36" cy="29" r="4" fill="#FF7043" opacity=".75"/></svg>',name:'Buddha Bowl',meta:'Fusion · 20 min'},
+  ]},
+  cozy:{title:'😌 Cozy — warm, slow, and comforting',foods:[
+    {svg:'<svg viewBox="0 0 52 52" fill="none"><ellipse cx="26" cy="42" rx="20" ry="7" fill="#C9813A" opacity=".3"/><rect x="6" y="26" width="40" height="18" rx="10" fill="#E8A55C"/><rect x="8" y="26" width="36" height="8" rx="6" fill="#F2C07A"/><ellipse cx="26" cy="26" rx="18" ry="6" fill="#FDDEA0"/><circle cx="18" cy="25" r="3" fill="#E05C4B" opacity=".85"/><circle cx="26" cy="24" r="3" fill="#4CAF50" opacity=".85"/><circle cx="34" cy="25" r="3" fill="#FFCC02" opacity=".85"/><path d="M20 12 Q22 6 24 12" stroke="#4CAF50" stroke-width="2" stroke-linecap="round" fill="none"/><path d="M28 10 Q30 4 32 10" stroke="#4CAF50" stroke-width="2" stroke-linecap="round" fill="none"/></svg>',name:'Ramen Bowl',meta:'Japanese · 35 min'},
+    {svg:'<svg viewBox="0 0 52 52" fill="none"><ellipse cx="26" cy="44" rx="18" ry="6" fill="#5D8A3C" opacity=".2"/><rect x="10" y="28" width="32" height="18" rx="9" fill="#A5D6A7"/><ellipse cx="26" cy="28" rx="16" ry="7" fill="#66BB6A"/><circle cx="18" cy="26" r="4" fill="#FF7043" opacity=".8"/><circle cx="30" cy="25" r="4" fill="#FFCC02" opacity=".85"/><circle cx="38" cy="27" r="3" fill="#FF7043" opacity=".75"/></svg>',name:'Lentil Stew',meta:'Mediterranean · 40 min'},
+    {svg:'<svg viewBox="0 0 52 52" fill="none"><ellipse cx="26" cy="44" rx="18" ry="5" fill="#F5C842" opacity=".2"/><rect x="6" y="34" width="40" height="10" rx="5" fill="#FFF9C4"/><ellipse cx="26" cy="34" rx="20" ry="7" fill="#FFFDE7"/><ellipse cx="26" cy="30" rx="16" ry="5" fill="#FFD84D" opacity=".7"/><rect x="22" y="12" width="8" height="20" rx="4" fill="#FFA726"/></svg>',name:'Fluffy Pancakes',meta:'American · 20 min'},
+    {svg:'<svg viewBox="0 0 52 52" fill="none"><ellipse cx="26" cy="44" rx="18" ry="6" fill="#E65100" opacity=".2"/><rect x="10" y="28" width="32" height="18" rx="9" fill="#FFCCBC"/><ellipse cx="26" cy="28" rx="16" ry="7" fill="#FF8A65"/><circle cx="18" cy="26" r="4" fill="#BF360C" opacity=".8"/><circle cx="30" cy="25" r="4" fill="#4CAF50" opacity=".8"/><circle cx="36" cy="27" r="3" fill="#FFCC02" opacity=".85"/></svg>',name:'Butter Chicken',meta:'Indian · 50 min'},
+  ]},
+  meh:{title:'😐 Meh — a nudge in the right direction',foods:[
+    {svg:'<svg viewBox="0 0 52 52" fill="none"><ellipse cx="26" cy="44" rx="18" ry="6" fill="#8FAF78" opacity=".2"/><rect x="8" y="30" width="36" height="14" rx="5" fill="#F5F5F5"/><rect x="6" y="24" width="40" height="10" rx="4" fill="#E8F5E9"/><ellipse cx="26" cy="24" rx="20" ry="6" fill="#C8E6C9"/><circle cx="18" cy="22" r="4" fill="#66BB6A" opacity=".8"/><circle cx="26" cy="21" r="3" fill="#FFCC02" opacity=".85"/><circle cx="34" cy="22" r="4" fill="#FF7043" opacity=".75"/></svg>',name:'Avo Toast & Eggs',meta:'Brunch · 12 min'},
+    {svg:'<svg viewBox="0 0 52 52" fill="none"><ellipse cx="26" cy="44" rx="18" ry="6" fill="#7B1FA2" opacity=".15"/><circle cx="26" cy="28" r="16" fill="#9C27B0" opacity=".6"/><circle cx="26" cy="26" r="13" fill="#BA68C8" opacity=".7"/><circle cx="22" cy="24" r="5" fill="#4CAF50" opacity=".7"/><circle cx="32" cy="24" r="5" fill="#FFCC02" opacity=".7"/><ellipse cx="26" cy="30" rx="8" ry="3" fill="rgba(255,255,255,.2)"/></svg>',name:'Açaí Power Bowl',meta:'Brazilian · 10 min'},
+    {svg:'<svg viewBox="0 0 52 52" fill="none"><ellipse cx="26" cy="44" rx="18" ry="5" fill="#F5C842" opacity=".2"/><rect x="8" y="34" width="36" height="10" rx="5" fill="#FFF9C4"/><ellipse cx="26" cy="34" rx="18" ry="6" fill="#FFF176"/><rect x="16" y="14" width="20" height="22" rx="3" fill="#FFA726"/><ellipse cx="26" cy="14" rx="10" ry="4" fill="#FFD54F"/></svg>',name:'Banana Pancakes',meta:'Comfort · 18 min'},
+    {svg:'<svg viewBox="0 0 52 52" fill="none"><ellipse cx="26" cy="44" rx="18" ry="6" fill="#795548" opacity=".2"/><rect x="12" y="28" width="28" height="18" rx="6" fill="#EFEBE9"/><rect x="10" y="24" width="32" height="10" rx="5" fill="#D7CCC8"/><ellipse cx="26" cy="24" rx="16" ry="5" fill="#A1887F"/><ellipse cx="20" cy="23" rx="5" ry="2" fill="rgba(255,255,255,.35)"/></svg>',name:'Warm Oatmeal',meta:'Breakfast · 8 min'},
+  ]},
+  stressed:{title:'😤 Stressed — comfort mode activated',foods:[
+    {svg:'<svg viewBox="0 0 52 52" fill="none"><ellipse cx="26" cy="44" rx="18" ry="6" fill="#B71C1C" opacity=".2"/><rect x="8" y="28" width="36" height="16" rx="8" fill="#EF5350" opacity=".7"/><ellipse cx="26" cy="28" rx="18" ry="7" fill="#FF8A80"/><ellipse cx="20" cy="27" rx="5" ry="2" fill="rgba(255,255,255,.4)"/></svg>',name:'Tomato Soup',meta:'Classic · 20 min'},
+    {svg:'<svg viewBox="0 0 52 52" fill="none"><ellipse cx="26" cy="44" rx="18" ry="6" fill="#795548" opacity=".2"/><rect x="8" y="30" width="36" height="14" rx="5" fill="#BCAAA4"/><ellipse cx="26" cy="30" rx="18" ry="7" fill="#D7CCC8"/><ellipse cx="20" cy="29" rx="6" ry="3" fill="rgba(255,255,255,.4)"/><rect x="22" y="10" width="8" height="22" rx="4" fill="#8D6E63"/></svg>',name:'Mashed Potatoes',meta:'Comfort · 25 min'},
+    {svg:'<svg viewBox="0 0 52 52" fill="none"><ellipse cx="26" cy="44" rx="20" ry="7" fill="#C9813A" opacity=".3"/><rect x="6" y="26" width="40" height="18" rx="10" fill="#FFFDE7"/><ellipse cx="26" cy="26" rx="20" ry="7" fill="#FFF9C4"/><ellipse cx="26" cy="24" rx="16" ry="5" fill="#FFD84D"/><circle cx="18" cy="23" r="3" fill="#FF7043" opacity=".8"/><circle cx="34" cy="23" r="3" fill="#4CAF50" opacity=".8"/></svg>',name:'Spaghetti Aglio',meta:'Italian · 18 min'},
+    {svg:'<svg viewBox="0 0 52 52" fill="none"><circle cx="26" cy="28" r="18" fill="#7B1FA2" opacity=".5"/><circle cx="26" cy="26" r="15" fill="#9C27B0" opacity=".6"/><circle cx="26" cy="24" r="12" fill="#CE93D8"/><circle cx="26" cy="22" r="8" fill="#F3E5F5"/><circle cx="26" cy="20" r="4" fill="#7B1FA2" opacity=".4"/></svg>',name:'Chocolate Mug Cake',meta:'Dessert · 8 min'},
+  ]},
+  low:{title:'😢 Feeling low — gentle, nourishing picks',foods:[
+    {svg:'<svg viewBox="0 0 52 52" fill="none"><ellipse cx="26" cy="44" rx="18" ry="6" fill="#5D8A3C" opacity=".2"/><rect x="12" y="30" width="28" height="16" rx="6" fill="#E8F5E9"/><rect x="10" y="24" width="32" height="10" rx="5" fill="#C8E6C9"/><ellipse cx="26" cy="24" rx="16" ry="5" fill="#A5D6A7"/><ellipse cx="20" cy="23" rx="5" ry="2" fill="rgba(255,255,255,.4)"/></svg>',name:'Matcha Latte',meta:'Light · 5 min'},
+    {svg:'<svg viewBox="0 0 52 52" fill="none"><ellipse cx="26" cy="44" rx="16" ry="5" fill="#F5C842" opacity=".2"/><ellipse cx="26" cy="32" rx="14" ry="12" fill="#FFF176"/><ellipse cx="26" cy="30" rx="11" ry="9" fill="#FFD84D"/><ellipse cx="26" cy="28" rx="8" ry="6" fill="#FFCC02"/></svg>',name:'Banana Nice Cream',meta:'Vegan · 10 min'},
+    {svg:'<svg viewBox="0 0 52 52" fill="none"><ellipse cx="26" cy="44" rx="18" ry="5" fill="#F5C842" opacity=".2"/><ellipse cx="26" cy="34" rx="18" ry="10" fill="#FFFDE7"/><ellipse cx="26" cy="32" rx="16" ry="8" fill="#FFF9C4"/><ellipse cx="26" cy="30" rx="12" ry="6" fill="#F9D96A" opacity=".6"/><path d="M16 36 Q26 42 36 36" stroke="#F5C842" stroke-width="2" fill="none" stroke-linecap="round"/></svg>',name:'Warm Oatmeal & Honey',meta:'Soothing · 8 min'},
+    {svg:'<svg viewBox="0 0 52 52" fill="none"><ellipse cx="26" cy="44" rx="18" ry="6" fill="#5D8A3C" opacity=".2"/><rect x="10" y="28" width="32" height="18" rx="9" fill="#E8F5E9"/><ellipse cx="26" cy="28" rx="16" ry="7" fill="#A5D6A7"/><circle cx="18" cy="26" r="4" fill="#66BB6A" opacity=".8"/><circle cx="30" cy="25" r="4" fill="#FFCC02" opacity=".8"/></svg>',name:'Congee',meta:'Chinese · 30 min'},
+  ]},
+  indulge:{title:'🤤 Indulge — absolutely no regrets',foods:[
+    {svg:'<svg viewBox="0 0 52 52" fill="none"><ellipse cx="26" cy="44" rx="18" ry="6" fill="#C9813A" opacity=".25"/><rect x="8" y="28" width="36" height="18" rx="9" fill="#FFECB3"/><ellipse cx="26" cy="28" rx="18" ry="7" fill="#FFD54F"/><circle cx="18" cy="26" r="4" fill="#F5C842" opacity=".8"/><circle cx="30" cy="25" r="4" fill="#FF7043" opacity=".75"/><ellipse cx="20" cy="27" rx="5" ry="2" fill="rgba(255,255,255,.35)"/></svg>',name:'Truffle Mac & Cheese',meta:'Indulgent · 35 min'},
+    {svg:'<svg viewBox="0 0 52 52" fill="none"><ellipse cx="26" cy="44" rx="18" ry="5" fill="#5D4037" opacity=".2"/><rect x="8" y="32" width="36" height="12" rx="4" fill="#8D6E63"/><rect x="6" y="24" width="40" height="12" rx="6" fill="#A5D6A7"/><rect x="4" y="20" width="44" height="8" rx="4" fill="#F5C842"/><ellipse cx="26" cy="20" rx="22" ry="5" fill="#FFECB3"/><ellipse cx="20" cy="19" rx="6" ry="2" fill="rgba(255,255,255,.35)"/></svg>',name:'Double Smash Burger',meta:'American · 20 min'},
+    {svg:'<svg viewBox="0 0 52 52" fill="none"><ellipse cx="26" cy="44" rx="18" ry="6" fill="#F5C842" opacity=".2"/><rect x="6" y="34" width="40" height="10" rx="5" fill="#FFF9C4"/><ellipse cx="26" cy="34" rx="20" ry="7" fill="#FFFDE7"/><ellipse cx="26" cy="30" rx="16" ry="5" fill="#FFD84D" opacity=".7"/><rect x="18" y="10" width="16" height="22" rx="4" fill="#FFA726"/><ellipse cx="26" cy="10" rx="8" ry="3" fill="#FFD54F"/></svg>',name:'Glazed French Toast',meta:'Brunch · 22 min'},
+    {svg:'<svg viewBox="0 0 52 52" fill="none"><ellipse cx="26" cy="44" rx="20" ry="7" fill="#C9813A" opacity=".3"/><rect x="6" y="26" width="40" height="18" rx="10" fill="#FFFDE7"/><ellipse cx="26" cy="26" rx="20" ry="7" fill="#FFF9C4"/><ellipse cx="26" cy="24" rx="16" ry="5" fill="#FFD84D"/><circle cx="18" cy="23" r="3" fill="#FF7043" opacity=".8"/><circle cx="30" cy="22" r="3" fill="#8D6E63" opacity=".8"/><circle cx="38" cy="23" r="3" fill="#FF7043" opacity=".75"/></svg>',name:'Brown Butter Pasta',meta:'Italian · 18 min'},
+  ]},
+};
+
+function pickMood(el){
+  document.querySelectorAll('.mood-card').forEach(c=>c.classList.remove('active'));
+  el.classList.add('active');
+  const mood=el.dataset.mood;
+  const d=moodData[mood];
+  const panel=document.getElementById('foodPanel');
+  document.getElementById('fspTitle').textContent=d.title;
+  document.getElementById('foodRow').innerHTML=d.foods.map(f=>`
+    <div class="food-chip">
+      <div class="food-chip-icon">${f.svg}</div>
+      <div class="food-chip-name">${f.name}</div>
+      <div class="food-chip-meta">${f.meta}</div>
+    </div>
+  `).join('');
+  panel.classList.remove('visible');
+  setTimeout(()=>panel.classList.add('visible'),60);
+}
+
+// Init cozy foods
+pickMood(document.querySelector('[data-mood="cozy"]'));
+
+function joinWaitlist(){
+  const e=document.getElementById('ctaEmail');
+  if(e.value&&e.value.includes('@')){
+    document.getElementById('ctaSuccess').style.display='block';
+    e.value='';
+  }
+}
+
+// Subtle parallax on hero elements
+document.addEventListener('mousemove',e=>{
+  const dx=(e.clientX/window.innerWidth-.5)*12;
+  const dy=(e.clientY/window.innerHeight-.5)*8;
+  const orbit=document.querySelector('.food-orbit');
+  if(orbit)orbit.style.transform=`translate(${dx*.5}px,${dy*.5}px)`;
+  document.querySelectorAll('.float-card').forEach((fc,i)=>{
+    fc.style.transform=`translate(${dx*(i%2?1:-1)*.3}px,${dy*.3}px)`;
+  });
+});
+</script>
+</body>
+</html>
